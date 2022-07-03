@@ -20,9 +20,9 @@ export const Timer = () => {
   let [submittedSeconds, setSubmittedSeconds] = useState();
 
   // hours, minutes and seconds passed to the start() in submit handle in millsec.
-  let [hour, setHour] = useState();
-  let [minute, setMinute] = useState();
-  let [second, setSecond] = useState();
+  let [hour, setHour] = useState(0);
+  let [minute, setMinute] = useState(0);
+  let [second, setSecond] = useState(0);
 
   // Calculations for hour, minute and second for display on screen
   let hours = Math.floor((timeLeft % (24 * 60 * 60 * 1000)) / (1000 * 60 * 60));
@@ -99,7 +99,7 @@ export const Timer = () => {
           </button>
         )
       )}
-      {running && submittedHours ? (
+      {running ? (
         <button
           title="Cancel"
           onClick={() => {
@@ -116,7 +116,7 @@ export const Timer = () => {
       {!running ? (
         <form onSubmit={handleSubmit}>
           <input
-            type="text"
+            type="number"
             name="hours"
             onChange={(e) => {
               setSubmittedHours(e.target.value);
