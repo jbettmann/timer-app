@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useCountDown from "react-countdown-hook";
 
-export const Timer = () => {
+export const NewTimer = ({ deleteTimer }) => {
   // useCountDown hook.
   let initialTime; // initial number. default 60000ms
   let interval; // how often hook is ran. default 1000ms
@@ -143,6 +143,7 @@ export const Timer = () => {
       ) : (
         <div></div>
       )}
+      <button onClick={deleteTimer}>Delete Timer</button>
     </div>
   );
 };
