@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { nanoid } from "nanoid";
 
 import "./App.css";
 import { Timer } from "./components/timer/timer";
 import { NewTimer } from "./components/timer/new-timer";
 
 function App() {
-  let [timers, setTimers] = useState([<Timer />, <Timer />, <Timer />]);
+  let [timers, setTimers] = useState([
+    { id: nanoid(), name: "Mash-In" },
+    { id: nanoid(), name: "Rest" },
+    { id: nanoid(), name: "Boil" },
+  ]);
+  // let [newTimers, setNewTimers] = useState([]);
 
   const addNewTimer = () => {
-    setTimers([...timers, <NewTimer deleteTimer={deleteTimer} />]);
-    console.log(timers);
+    setTimers([...timers, { id: nanoid(), name: "", newTimer: true }]);
   };
 
   const deleteTimer = (e) => {
-    console.log(value);
-    setTimers(timers.filter((item) => item != value));
+    let id = e.target.value;
+    setTimers(timers.filter((item) => item.id != id));
   };
 
   useEffect(() => {
@@ -24,7 +29,13 @@ function App() {
   return (
     <div className="App">
       {timers.map((timer) => (
-        <div>{timer}</div>
+        <Timer
+          key={timer.id}
+          id={timer.id}
+          name={timer.name}
+          newTimer={timer.newTimer}
+          deleteTimer={deleteTimer}
+        />
       ))}
 
       <button onClick={addNewTimer}>Add Timer</button>
