@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useCountDown from "react-countdown-hook";
+import AlertAudio from "../../assets/2001_Alert.mp3";
 
 export const Timer = ({ deleteTimer, id, name, newTimer }) => {
   // useCountDown hook.
@@ -13,6 +14,8 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
   const [running, setRunning] = useState(false);
   // sets timer pause to false for buttons showing
   const [timerPause, setTimerPause] = useState(false);
+  // sets timer alert state for when timer is finished
+  const [timerFinished, setTimerFinished] = useState(false);
 
   // display time initially submitted by user before time starts running.
   let [submittedHours, setSubmittedHours] = useState();
@@ -40,6 +43,7 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
     console.log(total);
     setRunning(true);
     start(total);
+    setTimerFinished(true);
   };
 
   // resets hours, minutes and seconds along with running state.
@@ -50,9 +54,17 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
     setRunning(false);
   };
 
+  useEffect(() => {
+    alertFinish();
+    console.log(timerFinished);
+  });
   // alerts user when timer finished
   const alertFinish = () => {
-    alert("Finised!");
+    if (timeLeft === 0 && timerFinished) {
+      let audio = new Audio(AlertAudio);
+
+      alert(`${name} is finished!`, audio.play());
+    }
   };
 
   return (
@@ -82,6 +94,7 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
           onClick={() => {
             pause();
             setTimerPause(true);
+            setTimerFinished(false);
           }}
         >
           Pause
@@ -94,18 +107,31 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
             onClick={() => {
               resume();
               setTimerPause(false);
+              setTimerFinished(true);
             }}
           >
             Resume
           </button>
         )
       )}
-      {running ? (
+      {running && timeLeft === 0 ? (
+        <button
+          title="Reset"
+          onClick={() => {
+            reset();
+            handleReset();
+            setTimerFinished(false);
+          }}
+        >
+          Reset
+        </button>
+      ) : running ? (
         <button
           title="Cancel"
           onClick={() => {
             reset();
             handleReset();
+            setTimerFinished(false);
           }}
         >
           Cancel
