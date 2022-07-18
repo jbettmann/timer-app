@@ -18,7 +18,7 @@ export const NewTimerModal = ({ open, handleClose, addNewTimer }) => {
     setName(value);
   };
 
-  const submit = () => {
+  const handleSubmit = () => {
     addNewTimer(name);
     handleClose();
     setName("");
@@ -41,7 +41,7 @@ export const NewTimerModal = ({ open, handleClose, addNewTimer }) => {
       <Timer />
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
-        <Button onClick={submit}>Start</Button>
+        <Button onClick={handleSubmit}>Start</Button>
       </DialogActions>
     </Dialog>
   );
