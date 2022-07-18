@@ -50,7 +50,12 @@ function App() {
         />
       ))}
 
-      <button onClick={addNewTimer}>Add Timer</button>
+      <button onClick={handleClickOpen}>Add Timer</button>
+      <NewTimerModal
+        open={open}
+        handleClose={handleClose}
+        addNewTimer={addNewTimer}
+      />
     </div>
   );
 }
