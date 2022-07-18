@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 
 import "./App.css";
 import { Timer } from "./components/timer/timer";
-import { NewTimer } from "./components/timer/new-timer";
+import { NewTimerModal } from "./components/new-timer-modal/new-timer-modal";
 
 function App() {
   let [timers, setTimers] = useState([
@@ -11,10 +11,22 @@ function App() {
     { id: nanoid(), name: "Rest" },
     { id: nanoid(), name: "Boil" },
   ]);
-  // let [newTimers, setNewTimers] = useState([]);
+  // sets state of modal for new timer. Default is to not show
+  const [open, setOpen] = useState(false);
 
-  const addNewTimer = () => {
-    setTimers([...timers, { id: nanoid(), name: "", newTimer: true }]);
+  // Opens new timer modal
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  // Closes modal
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const addNewTimer = (timerName) => {
+    console.log(timerName);
+    setTimers([...timers, { id: nanoid(), name: timerName, newTimer: true }]);
   };
 
   const deleteTimer = (e) => {
