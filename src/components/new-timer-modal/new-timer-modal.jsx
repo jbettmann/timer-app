@@ -18,10 +18,11 @@ export const NewTimerModal = ({ open, handleClose, addNewTimer }) => {
     setName(value);
   };
 
+  // Handles submit once user inputs all values needed
   const handleSubmit = () => {
-    addNewTimer(name);
-    handleClose();
-    setName("");
+    addNewTimer(name); // sends name to timer obj and sets name property to name
+    handleClose(); // closes modal
+    setName(""); // sets name value to "" in modal component
   };
 
   return (
