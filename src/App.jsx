@@ -11,6 +11,7 @@ function App() {
     { id: nanoid(), name: "Rest" },
     { id: nanoid(), name: "Boil" },
   ]);
+
   // sets state of modal for new timer. Default is to not show
   const [open, setOpen] = useState(false);
 
