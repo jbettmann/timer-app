@@ -1,0 +1,14 @@
+.timer {
+  background-color: rgba(117, 117, 117, 0.798);
+  color: #fff;
+  width: 50%;
+  margin: 2rem 0;
+  padding: 1rem;
+  border-radius: 20px;
+  filter: drop-shadow(0 1px 2px rgb(63, 58, 58));
+}
+
+h3, p {
+  font-weight: 300;
+  margin: 1rem;
+}
