@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import useCountDown from "react-countdown-hook";
 import AlertAudio from "../../assets/2001_Alert.mp3";
+import { TimesUp } from "../times-up/times-up";
+import { Button } from "@mui/material";
+
+import "./timer.css";
 
 export const Timer = ({ deleteTimer, id, name, newTimer }) => {
   // useCountDown hook.
@@ -16,6 +20,8 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
   const [timerPause, setTimerPause] = useState(false);
   // sets timer alert state for when timer is finished
   const [timerFinished, setTimerFinished] = useState(false);
+  // sets state for timer alert
+  const [showTimesUpModal, setShowTimesUpModal] = useState(false);
 
   // display time initially submitted by user before time starts running.
   let [submittedHours, setSubmittedHours] = useState();
@@ -36,6 +42,20 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
   let runningMins = minutes < 10 ? `0${minutes}` : minutes;
   let runningSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
+  // sets audio state to audio file
+  const [audioPlay, setAudioPlay] = useState(new Audio(AlertAudio));
+
+  // plays audio when time is up
+  const startAudio = () => {
+    audioPlay.play();
+  };
+
+  // Stops audio and set audio to beginning
+  const stopAudio = () => {
+    audioPlay.pause();
+    setAudioPlay(new Audio(AlertAudio));
+  };
+
   // sets Running state to true and adds hour, minutes and seconds to total then submitted to start() in millsec.
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,22 +74,27 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
     setRunning(false);
   };
 
+  // Closes Timer finish modals
+  const handleTimesUpClose = () => {
+    stopAudio(); //stops audio and sets to og
+    setTimerFinished(false);
+    setShowTimesUpModal(false);
+  };
+
   useEffect(() => {
     alertFinish();
-    console.log(timerFinished);
   });
   // alerts user when timer finished
   const alertFinish = () => {
     if (timeLeft === 0 && timerFinished) {
-      let audio = new Audio(AlertAudio);
-
-      alert(`${name} is finished!`, audio.play());
+      setShowTimesUpModal(true);
+      startAudio(); // starts timer audio
     }
   };
 
   return (
-    <div>
-      <p>{name}</p>
+    <div className="timer">
+      <h3>{name}</h3>
       {running ? (
         <p>
           {runningHours} Hours : {runningMins}
@@ -84,12 +109,20 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
         </p>
       )}
       {!running && (
-        <button type="submit" title="Start" onClick={handleSubmit}>
+        <Button
+          variant="contained"
+          color="secondary"
+          type="submit"
+          title="Start"
+          onClick={handleSubmit}
+        >
           Start
-        </button>
+        </Button>
       )}
       {running && !timerPause ? (
-        <button
+        <Button
+          variant="contained"
+          color="secondary"
           title="Pause"
           onClick={() => {
             pause();
@@ -98,11 +131,13 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
           }}
         >
           Pause
-        </button>
+        </Button>
       ) : (
         running &&
         timerPause && (
-          <button
+          <Button
+            variant="contained"
+            color="secondary"
             title="resume"
             onClick={() => {
               resume();
@@ -111,11 +146,13 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
             }}
           >
             Resume
-          </button>
+          </Button>
         )
       )}
       {running && timeLeft === 0 ? (
-        <button
+        <Button
+          variant="contained"
+          color="secondary"
           title="Reset"
           onClick={() => {
             reset();
@@ -124,9 +161,11 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
           }}
         >
           Reset
-        </button>
+        </Button>
       ) : running ? (
-        <button
+        <Button
+          variant="contained"
+          color="secondary"
           title="Cancel"
           onClick={() => {
             reset();
@@ -135,15 +174,17 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
           }}
         >
           Cancel
-        </button>
+        </Button>
       ) : (
-        <button>cancel </button>
+        <Button variant="contained" color="secondary">
+          cancel{" "}
+        </Button>
       )}
 
       {!running ? (
         <form onSubmit={handleSubmit}>
           <input
-            type="number"
+            type="text"
             name="hours"
             onChange={(e) => {
               setSubmittedHours(e.target.value);
@@ -171,12 +212,17 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
         <div></div>
       )}
       {newTimer ? (
-        <button onClick={deleteTimer} value={id}>
+        <Button onClick={deleteTimer} value={id}>
           Delete Timer
-        </button>
+        </Button>
       ) : (
         <></>
       )}
+      <TimesUp
+        open={showTimesUpModal}
+        name={name}
+        handleTimesUpClose={handleTimesUpClose}
+      />
     </div>
   );
 };
