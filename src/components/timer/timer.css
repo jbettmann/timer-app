@@ -12,3 +12,13 @@ h3, p {
   font-weight: 300;
   margin: 1rem;
 }
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+}
+
+.error {
+  font-size: .8rem;
+  color: red;
+}

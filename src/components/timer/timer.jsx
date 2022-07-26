@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useCountDown from "react-countdown-hook";
 import AlertAudio from "../../assets/2001_Alert.mp3";
 import { TimesUp } from "../times-up/times-up";
-import { Button } from "@mui/material";
+import { Button, Input } from "@mui/material";
 
 import "./timer.css";
 
@@ -44,7 +44,36 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
 
   // sets audio state to audio file
   const [audioPlay, setAudioPlay] = useState(new Audio(AlertAudio));
+  // Error message state
+  const [error, setError] = useState("");
 
+  // Real time validation hours entered is less than 24 and displays error message
+  const handleHourChange = (e) => {
+    setSubmittedHours(e.target.value);
+    if (submittedHours >= 24) {
+      setError("Hours must be under 24 for timer to start");
+    } else {
+      setHour(e.target.value * 60 * 60 * 1000), setError("");
+    }
+  };
+
+  // Real time validation for minutes entered to be less than 59 and displays error message
+  const handleMinsChange = (e) => {
+    setSubmittedMins(e.target.value);
+    setError("");
+    submittedMins <= 59
+      ? setMinute(e.target.value * 60 * 1000)
+      : setError("Minutes must be under 60 for timer to start");
+  };
+
+  // Real time validation for seconds entered to be less than 59 and displays error message
+  const handleSecondsChange = (e) => {
+    setSubmittedSeconds(e.target.value);
+    setError("");
+    submittedSeconds <= 59
+      ? setSecond(e.target.value * 1000)
+      : setError("Seconds must be under 60 for timer to start");
+  };
   // plays audio when time is up
   const startAudio = () => {
     audioPlay.play();
@@ -60,10 +89,26 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let total = hour + minute + second;
-    console.log(total);
-    setRunning(true);
-    start(total);
-    setTimerFinished(true);
+    console.log(runningHours, submittedMins, submittedSeconds);
+    console.log("hours min sec", hour, minute, second);
+
+    if (
+      (submittedHours >= 24 && submittedMins >= 1 && submittedSeconds >= 1) ||
+      submittedHours >= 24
+    ) {
+      return setError("Hours must be under 24 for timer to run");
+    }
+    if (submittedMins >= 60) {
+      return setError("Minutes must be between 0 -59 min");
+    }
+    if (submittedSeconds >= 60) {
+      return setError("Seconds must be between 0 -59 sec");
+    } else {
+      setRunning(true);
+      start(total);
+      setTimerFinished(true);
+      setError("");
+    }
   };
 
   // resets hours, minutes and seconds along with running state.
@@ -183,29 +228,24 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
 
       {!running ? (
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
+          <Input
+            type="number"
             name="hours"
-            onChange={(e) => {
-              setSubmittedHours(e.target.value);
-              setHour(e.target.value * 60 * 60 * 1000);
-            }}
+            onChange={handleHourChange}
+            onBlur={handleHourChange}
           />
-          <input
-            type="text"
+          <div className="error">{error}</div>
+          <Input
+            type="number"
             name="mins"
-            onChange={(e) => {
-              setSubmittedMins(e.target.value);
-              setMinute(e.target.value * 60 * 1000);
-            }}
+            onChange={handleMinsChange}
+            onBlur={handleMinsChange}
           />
-          <input
-            type="text"
+          <Input
+            type="number"
             name="seconds"
-            onChange={(e) => {
-              setSubmittedSeconds(e.target.value);
-              setSecond(e.target.value * 1000);
-            }}
+            onChange={handleSecondsChange}
+            onBlur={handleSecondsChange}
           />
         </form>
       ) : (
