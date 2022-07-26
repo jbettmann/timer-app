@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 
 import "./App.css";
@@ -24,10 +24,12 @@ function App() {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const addNewTimer = (timerName) => {
-    console.log(timerName);
-    setTimers([...timers, { id: nanoid(), name: timerName, newTimer: true }]);
+  // Adds new time to timer array and sets name and total time added
+  const addNewTimer = (timerName, total) => {
+    setTimers([
+      ...timers,
+      { id: nanoid(), name: timerName, newTimer: true, total: total },
+    ]);
   };
 
   const deleteTimer = (e) => {
@@ -47,6 +49,7 @@ function App() {
           id={timer.id}
           name={timer.name}
           newTimer={timer.newTimer}
+          timeFromModal={timer.total}
           deleteTimer={deleteTimer}
         />
       ))}

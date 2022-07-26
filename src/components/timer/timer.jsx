@@ -6,7 +6,7 @@ import { Button, Input } from "@mui/material";
 
 import "./timer.css";
 
-export const Timer = ({ deleteTimer, id, name, newTimer }) => {
+export const Timer = ({ deleteTimer, id, name, newTimer, timeFromModal }) => {
   // useCountDown hook.
   let initialTime; // initial number. default 60000ms
   let interval; // how often hook is ran. default 1000ms
@@ -22,6 +22,8 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
   const [timerFinished, setTimerFinished] = useState(false);
   // sets state for timer alert
   const [showTimesUpModal, setShowTimesUpModal] = useState(false);
+  // Time submitted from modal for new timer
+  const [newTimeFromModal, setNewTimeFromModal] = useState(timeFromModal);
 
   // display time initially submitted by user before time starts running.
   let [submittedHours, setSubmittedHours] = useState();
@@ -33,19 +35,21 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
   let [minute, setMinute] = useState(0);
   let [second, setSecond] = useState(0);
 
+  // sets audio state to audio file
+  const [audioPlay, setAudioPlay] = useState(new Audio(AlertAudio));
+
+  // Error message state
+  const [error, setError] = useState("");
+
   // Calculations for hour, minute and second for display on screen
   let hours = Math.floor((timeLeft % (24 * 60 * 60 * 1000)) / (1000 * 60 * 60));
   let minutes = Math.floor((timeLeft % (60 * 60 * 1000)) / (1000 * 60));
   let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
   // Sets 0 in front of number less than 10 so always two digits.
   let runningHours = hours < 10 ? `0${hours}` : hours;
   let runningMins = minutes < 10 ? `0${minutes}` : minutes;
   let runningSeconds = seconds < 10 ? `0${seconds}` : seconds;
-
-  // sets audio state to audio file
-  const [audioPlay, setAudioPlay] = useState(new Audio(AlertAudio));
-  // Error message state
-  const [error, setError] = useState("");
 
   // Real time validation hours entered is less than 24 and displays error message
   const handleHourChange = (e) => {
@@ -60,19 +64,24 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
   // Real time validation for minutes entered to be less than 59 and displays error message
   const handleMinsChange = (e) => {
     setSubmittedMins(e.target.value);
-    setError("");
-    submittedMins <= 59
-      ? setMinute(e.target.value * 60 * 1000)
-      : setError("Minutes must be under 60 for timer to start");
+    if (submittedMins <= 59) {
+      setMinute(e.target.value * 60 * 1000);
+      setError("");
+    } else {
+      setError("Minutes must be under 60 for timer to start");
+    }
   };
 
   // Real time validation for seconds entered to be less than 59 and displays error message
   const handleSecondsChange = (e) => {
     setSubmittedSeconds(e.target.value);
-    setError("");
-    submittedSeconds <= 59
-      ? setSecond(e.target.value * 1000)
-      : setError("Seconds must be under 60 for timer to start");
+
+    if (submittedSeconds <= 59) {
+      setSecond(e.target.value * 1000);
+      setError("");
+    } else {
+      setError("Seconds must be under 60 for timer to start");
+    }
   };
   // plays audio when time is up
   const startAudio = () => {
@@ -89,9 +98,6 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let total = hour + minute + second;
-    console.log(runningHours, submittedMins, submittedSeconds);
-    console.log("hours min sec", hour, minute, second);
-
     if (
       (submittedHours >= 24 && submittedMins >= 1 && submittedSeconds >= 1) ||
       submittedHours >= 24
@@ -111,12 +117,12 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
     }
   };
 
-  // resets hours, minutes and seconds along with running state.
-  const handleReset = () => {
-    setSubmittedHours(0);
-    setSubmittedMins(0);
-    setSubmittedSeconds(0);
-    setRunning(false);
+  // Starts timer once time is set in new timer modal
+  const startTimerFromModal = () => {
+    start(newTimeFromModal);
+    setRunning(true);
+    setTimerFinished(true);
+    setError("");
   };
 
   // Closes Timer finish modals
@@ -126,9 +132,6 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
     setShowTimesUpModal(false);
   };
 
-  useEffect(() => {
-    alertFinish();
-  });
   // alerts user when timer finished
   const alertFinish = () => {
     if (timeLeft === 0 && timerFinished) {
@@ -136,6 +139,15 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
       startAudio(); // starts timer audio
     }
   };
+
+  useEffect(() => {
+    alertFinish();
+    // checks if newTimerFromModal is true to run startTimerFromModal
+    if (newTimeFromModal) {
+      startTimerFromModal();
+      setNewTimeFromModal(0);
+    }
+  });
 
   return (
     <div className="timer">
@@ -194,35 +206,16 @@ export const Timer = ({ deleteTimer, id, name, newTimer }) => {
           </Button>
         )
       )}
-      {running && timeLeft === 0 ? (
-        <Button
-          variant="contained"
-          color="secondary"
-          title="Reset"
-          onClick={() => {
-            reset();
-            handleReset();
-            setTimerFinished(false);
-          }}
-        >
-          Reset
-        </Button>
-      ) : running ? (
+      {!running ? (
+        <Button color="secondary">cancel</Button>
+      ) : (
         <Button
           variant="contained"
           color="secondary"
           title="Cancel"
-          onClick={() => {
-            reset();
-            handleReset();
-            setTimerFinished(false);
-          }}
+          onClick={handleReset}
         >
           Cancel
-        </Button>
-      ) : (
-        <Button variant="contained" color="secondary">
-          cancel{" "}
         </Button>
       )}
 
