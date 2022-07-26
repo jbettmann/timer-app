@@ -125,11 +125,22 @@ export const Timer = ({ deleteTimer, id, name, newTimer, timeFromModal }) => {
     setError("");
   };
 
-  // Closes Timer finish modals
-  const handleTimesUpClose = () => {
+  // Repeats timer
+  const handleRepeat = (e) => {
+    e.preventDefault(e);
+    let total = hour + minute + second;
+    stopAudio(); //stops audio and sets to og
+    start(total);
+    setShowTimesUpModal(false);
+  };
+
+  // resets hours, minutes and seconds along with running state.
+  const handleReset = () => {
     stopAudio(); //stops audio and sets to og
     setTimerFinished(false);
     setShowTimesUpModal(false);
+    setRunning(false);
+    reset();
   };
 
   // alerts user when timer finished
@@ -254,7 +265,8 @@ export const Timer = ({ deleteTimer, id, name, newTimer, timeFromModal }) => {
       <TimesUp
         open={showTimesUpModal}
         name={name}
-        handleTimesUpClose={handleTimesUpClose}
+        handleTimesUpClose={handleReset}
+        handleRepeat={handleRepeat}
       />
     </div>
   );

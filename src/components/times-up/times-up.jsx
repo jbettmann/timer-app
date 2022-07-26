@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from "react";
 import {
   Button,
-  TextField,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle,
 } from "@mui/material";
 
-export const TimesUp = ({ open, name, handleTimesUpClose }) => {
+export const TimesUp = ({ open, name, handleTimesUpClose, handleRepeat }) => {
   return (
     <Dialog open={open} onClose={handleTimesUpClose}>
       <DialogContent>
-        <DialogContentText>{name} IS DONE!</DialogContentText>
+        <DialogContentText>{name} Finished!</DialogContentText>
       </DialogContent>
       <DialogActions>
+        <Button onClick={handleRepeat}>Repeat</Button>
         <Button onClick={handleTimesUpClose}>Close</Button>
       </DialogActions>
     </Dialog>
