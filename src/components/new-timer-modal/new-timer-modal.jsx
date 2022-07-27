@@ -8,7 +8,6 @@ import {
   DialogContentText,
   Input,
 } from "@mui/material";
-import { Timer } from "../timer/timer";
 
 export const NewTimerModal = ({ open, handleClose, addNewTimer }) => {
   const [name, setName] = useState("");
