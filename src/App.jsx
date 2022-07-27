@@ -39,7 +39,7 @@ function App() {
 
   useEffect(() => {
     console.log(timers);
-  });
+  }, []);
 
   return (
     <div className="App">
@@ -53,7 +53,6 @@ function App() {
           deleteTimer={deleteTimer}
         />
       ))}
-
       <button onClick={handleClickOpen}>Add Timer</button>
       <NewTimerModal
         open={open}
