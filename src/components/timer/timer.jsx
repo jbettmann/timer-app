@@ -109,6 +109,9 @@ export const Timer = ({ deleteTimer, id, name, newTimer, timeFromModal }) => {
     }
     if (submittedSeconds >= 60) {
       return setError("Seconds must be between 0 -59 sec");
+    }
+    if (submittedHours <= 0 && submittedMins <= 0 && submittedSeconds <= 0) {
+      return alert("Please enter time to start timer");
     } else {
       setRunning(true);
       start(total);
@@ -135,7 +138,8 @@ export const Timer = ({ deleteTimer, id, name, newTimer, timeFromModal }) => {
   };
 
   // resets hours, minutes and seconds along with running state.
-  const handleReset = () => {
+  const handleReset = (e) => {
+    e.preventDefault();
     stopAudio(); //stops audio and sets to og
     setTimerFinished(false);
     setShowTimesUpModal(false);
@@ -233,6 +237,7 @@ export const Timer = ({ deleteTimer, id, name, newTimer, timeFromModal }) => {
       {!running ? (
         <form onSubmit={handleSubmit}>
           <Input
+            id="hours"
             type="number"
             name="hours"
             onChange={handleHourChange}
@@ -247,6 +252,7 @@ export const Timer = ({ deleteTimer, id, name, newTimer, timeFromModal }) => {
           />
           <Input
             type="number"
+            id="seconds"
             name="seconds"
             onChange={handleSecondsChange}
             onBlur={handleSecondsChange}
@@ -256,7 +262,7 @@ export const Timer = ({ deleteTimer, id, name, newTimer, timeFromModal }) => {
         <div></div>
       )}
       {newTimer ? (
-        <Button onClick={deleteTimer} value={id}>
+        <Button onClick={deleteTimer} value={id} aria-label="delete timer">
           Delete Timer
         </Button>
       ) : (
