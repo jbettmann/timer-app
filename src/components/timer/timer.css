@@ -22,3 +22,21 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: .8rem;
   color: red;
 }
+
+.timer-form {
+  display: flex;
+}
+
+label {
+  font-size: 1rem;
+}
+
+#add-minute-button {
+  font-size: 12px;
+  background-color: transparent;
+  color: #9c27b0;
+  border: solid .3px;
+  border-radius: 20px;
+  padding: 5px;
+  margin: 10px;
+}
