@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import useCountDown from "react-countdown-hook";
 import AlertAudio from "../../assets/2001_Alert.mp3";
 import { TimesUp } from "../times-up/times-up";
@@ -63,7 +63,6 @@ export const Timer = ({ deleteTimer, id, name, newTimer, timeFromModal }) => {
         setError("");
       }
     }
-  };
 
     // Real time validation for minutes entered to be less than 59 and displays error message
     if (e.target.name === "mins") {
@@ -165,119 +164,139 @@ export const Timer = ({ deleteTimer, id, name, newTimer, timeFromModal }) => {
     }
   };
 
+  const addAMinute = (e) => {
+    let newTotal = timeLeft + 60000;
+    start(newTotal);
+    // pause();
+  };
+
   useEffect(() => {
     alertFinish();
+
     // checks if newTimerFromModal is true to run startTimerFromModal
     if (newTimeFromModal) {
       startTimerFromModal();
       setNewTimeFromModal(0);
     }
-  });
+  }, []);
 
   return (
     <div className="timer">
       <h3>{name}</h3>
       {running ? (
-        <p>
-          {runningHours} Hours : {runningMins}
-          Mins : {runningSeconds} Secs
-        </p>
-      ) : (
-        <p>
-          {submittedHours < 10 ? `0${submittedHours}` : submittedHours} Hours :
-          {submittedMins < 10 ? `0${submittedMins}` : submittedMins} Mins :
-          {submittedSeconds < 10 ? `0${submittedSeconds}` : submittedSeconds}{" "}
-          Secs
-        </p>
-      )}
-      {!running && (
-        <Button
-          variant="contained"
-          color="secondary"
-          type="submit"
-          title="Start"
-          onClick={handleSubmit}
-        >
-          Start
-        </Button>
-      )}
-      {running && !timerPause ? (
-        <Button
-          variant="contained"
-          color="secondary"
-          title="Pause"
-          onClick={() => {
-            pause();
-            setTimerPause(true);
-            setTimerFinished(false);
-          }}
-        >
-          Pause
-        </Button>
-      ) : (
-        running &&
-        timerPause && (
+        <>
+          <p>
+            {runningHours}:{runningMins}:{runningSeconds}
+            {/* {runningHours} Hours : {runningMins} Mins : {runningSeconds} Secs */}
+          </p>
           <Button
-            variant="contained"
-            color="secondary"
-            title="resume"
-            onClick={() => {
-              resume();
-              setTimerPause(false);
-              setTimerFinished(true);
-            }}
+            id="add-minute-button"
+            title="Add a minute"
+            onClick={addAMinute}
           >
-            Resume
+            +1 Minute
           </Button>
-        )
-      )}
-      {!running ? (
-        <Button color="secondary">cancel</Button>
-      ) : (
-        <Button
-          variant="contained"
-          color="secondary"
-          title="Cancel"
-          onClick={handleReset}
-        >
-          Cancel
-        </Button>
-      )}
-
-      {!running ? (
-        <form onSubmit={handleSubmit}>
-          <Input
-            id="hours"
-            type="number"
-            name="hours"
-            onChange={handleHourChange}
-            onBlur={handleHourChange}
-          />
-          <div className="error">{error}</div>
-          <Input
-            type="number"
-            name="mins"
-            onChange={handleMinsChange}
-            onBlur={handleMinsChange}
-          />
-          <Input
-            type="number"
-            id="seconds"
-            name="seconds"
-            onChange={handleSecondsChange}
-            onBlur={handleSecondsChange}
-          />
-        </form>
-      ) : (
-        <div></div>
-      )}
-      {newTimer ? (
-        <Button onClick={deleteTimer} value={id} aria-label="delete timer">
-          Delete Timer
-        </Button>
+        </>
       ) : (
         <></>
       )}
+
+      {!running ? (
+        <>
+          <form className="timer-form" onSubmit={handleSubmit}>
+            <Input
+              type="number"
+              name="hours"
+              value={submittedHours}
+              onChange={FormValidation}
+            />
+            <label htmlFor="hours">hours</label>
+
+            <Input
+              type="number"
+              name="mins"
+              value={submittedMins}
+              onChange={FormValidation}
+            />
+            <label htmlFor="hours">mins</label>
+
+            <Input
+              type="number"
+              name="seconds"
+              value={submittedSeconds}
+              onChange={FormValidation}
+            />
+            <label htmlFor="hours">secs</label>
+          </form>
+          <div className="error">{error}</div>
+        </>
+      ) : (
+        <div></div>
+      )}
+      <div className="buttons-container">
+        <div className="start-cancel-buttons">
+          {!running && (
+            <Button
+              variant="contained"
+              color="secondary"
+              type="submit"
+              title="Start"
+              onClick={handleSubmit}
+            >
+              Start
+            </Button>
+          )}
+          {running && !timerPause ? (
+            <Button
+              variant="contained"
+              color="secondary"
+              title="Pause"
+              onClick={() => {
+                pause();
+                setTimerPause(true);
+                setTimerFinished(false);
+              }}
+            >
+              Pause
+            </Button>
+          ) : (
+            running &&
+            timerPause && (
+              <Button
+                variant="contained"
+                color="secondary"
+                title="resume"
+                onClick={() => {
+                  resume();
+                  setTimerPause(false);
+                  setTimerFinished(true);
+                }}
+              >
+                Resume
+              </Button>
+            )
+          )}
+          {!running ? (
+            <Button color="secondary">cancel</Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="secondary"
+              title="Cancel"
+              onClick={handleReset}
+            >
+              Cancel
+            </Button>
+          )}
+        </div>
+        {newTimer ? (
+          <Button onClick={deleteTimer} value={id} aria-label="delete timer">
+            Delete Timer
+          </Button>
+        ) : (
+          <></>
+        )}
+      </div>
       <TimesUp
         open={showTimesUpModal}
         name={name}
