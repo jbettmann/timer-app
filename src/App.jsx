@@ -14,6 +14,8 @@ function App() {
     { id: nanoid(), name: "Boil" },
   ]);
 
+  const [totalTime, setTotalTime] = useState(0);
+
   // sets state of modal for new timer. Default is to not show
   const [open, setOpen] = useState(false);
 
@@ -31,8 +33,8 @@ function App() {
       id: nanoid(),
       name: timerName,
       newTimer: true,
-      total: total,
     };
+    setTotalTime(total);
     const newTimerList = [...timers, newTimerAdded];
     saveTimerToStorage(newTimerList);
   };
@@ -69,7 +71,7 @@ function App() {
           id={timer.id}
           name={timer.name}
           newTimer={timer.newTimer}
-          timeFromModal={timer.total}
+          timeFromModal={totalTime}
           deleteTimer={deleteTimer}
         />
       ))}
