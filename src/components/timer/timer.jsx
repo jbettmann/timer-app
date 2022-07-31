@@ -51,38 +51,43 @@ export const Timer = ({ deleteTimer, id, name, newTimer, timeFromModal }) => {
   let runningMins = minutes < 10 ? `0${minutes}` : minutes;
   let runningSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
-  // Real time validation hours entered is less than 24 and displays error message
-  const handleHourChange = (e) => {
-    setSubmittedHours(e.target.value);
-    if (submittedHours >= 24) {
-      setError("Hours must be under 24 for timer to start");
-    } else {
-      setHour(e.target.value * 60 * 60 * 1000), setError("");
+  // real time form validation
+  const FormValidation = (e) => {
+    // Real time validation hours entered is less than 24 and displays error message
+    if (e.target.name === "hours") {
+      setSubmittedHours(e.target.value);
+      if (e.target.value >= 24) {
+        setError("Hours must be under 24 for timer to start");
+      } else {
+        setHour(e.target.value * 60 * 60 * 1000);
+        setError("");
+      }
     }
   };
 
-  // Real time validation for minutes entered to be less than 59 and displays error message
-  const handleMinsChange = (e) => {
-    setSubmittedMins(e.target.value);
-    if (submittedMins <= 59) {
-      setMinute(e.target.value * 60 * 1000);
-      setError("");
-    } else {
-      setError("Minutes must be under 60 for timer to start");
+    // Real time validation for minutes entered to be less than 59 and displays error message
+    if (e.target.name === "mins") {
+      setSubmittedMins(e.target.value);
+      if (e.target.value >= 60) {
+        setError("Minutes must be under 60 for timer to start");
+      } else {
+        setMinute(e.target.value * 60 * 1000);
+        setError("");
+      }
+    }
+
+    // Real time validation for seconds entered to be less than 59 and displays error message
+    if (e.target.name === "seconds") {
+      setSubmittedSeconds(e.target.value);
+      if (e.target.value >= 60) {
+        setError("Seconds must be under 60 for timer to start");
+      } else {
+        setSecond(e.target.value * 1000);
+        setError("");
+      }
     }
   };
 
-  // Real time validation for seconds entered to be less than 59 and displays error message
-  const handleSecondsChange = (e) => {
-    setSubmittedSeconds(e.target.value);
-
-    if (submittedSeconds <= 59) {
-      setSecond(e.target.value * 1000);
-      setError("");
-    } else {
-      setError("Seconds must be under 60 for timer to start");
-    }
-  };
   // plays audio when time is up
   const startAudio = () => {
     audioPlay.play();
@@ -110,7 +115,12 @@ export const Timer = ({ deleteTimer, id, name, newTimer, timeFromModal }) => {
     if (submittedSeconds >= 60) {
       return setError("Seconds must be between 0 -59 sec");
     }
-    if (submittedHours <= 0 && submittedMins <= 0 && submittedSeconds <= 0) {
+    if (
+      submittedHours <= 0 ||
+      (null && submittedMins <= 0) ||
+      (null && submittedSeconds <= 0) ||
+      null
+    ) {
       return alert("Please enter time to start timer");
     } else {
       setRunning(true);
