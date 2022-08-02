@@ -200,13 +200,12 @@ export const Timer = ({
 
   useEffect(() => {
     alertFinish();
-
     // checks if newTimerFromModal is true to run startTimerFromModal
     if (newTimeFromModal) {
       startTimerFromModal();
       setNewTimeFromModal(0);
     }
-  }, []);
+  }, [timeLeft]);
 
   return (
     <>
