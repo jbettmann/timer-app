@@ -46,6 +46,16 @@ function App() {
     saveTimerToStorage(timerList);
   };
 
+  const changeTimer = (name) => {
+    // const newTimer = {
+    //   id: timers.id,
+    //   name: name,
+    //   total: timers.total,
+    // };
+    // const newNamedTimerList = [...timers, newTimer];
+    // saveTimerToStorage(newNamedTimerList);
+  };
+
   // Opens new timer modal
   const handleClickOpen = () => {
     setOpen(true);
@@ -74,6 +84,7 @@ function App() {
           newTimer={timer.newTimer}
           timeFromModal={totalTime}
           deleteTimer={deleteTimer}
+          changeTimer={changeTimer}
         />
       ))}
 
