@@ -9,9 +9,9 @@ import { SearchTimers } from "./components/search-timers/search-timers";
 function App() {
   // Gets timer state from localStorage
   let [timers, setTimers] = useState([
-    { id: nanoid(), name: "Mash-In" },
-    { id: nanoid(), name: "Rest" },
-    { id: nanoid(), name: "Boil" },
+    { id: nanoid(), name: "Mash-In", total: 18000000 },
+    { id: nanoid(), name: "Vorlauf", total: 90000 },
+    { id: nanoid(), name: "Boil", total: 36000000 },
   ]);
 
   const [totalTime, setTotalTime] = useState(0);
@@ -33,6 +33,7 @@ function App() {
       id: nanoid(),
       name: timerName,
       newTimer: true,
+      total: total,
     };
     setTotalTime(total);
     const newTimerList = [...timers, newTimerAdded];
