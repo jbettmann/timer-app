@@ -40,3 +40,7 @@ label {
   padding: 5px;
   margin: 10px;
 }
+
+.hide-timer {
+  display: none;
+}
