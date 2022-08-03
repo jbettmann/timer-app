@@ -43,9 +43,9 @@ export const Timer = ({
   const [editView, setEditView] = useState(false);
 
   // display time initially submitted by user before time starts running.
-  let [submittedHours, setSubmittedHours] = useState();
-  let [submittedMins, setSubmittedMins] = useState();
-  let [submittedSeconds, setSubmittedSeconds] = useState();
+  let [submittedHours, setSubmittedHours] = useState(0);
+  let [submittedMins, setSubmittedMins] = useState(0);
+  let [submittedSeconds, setSubmittedSeconds] = useState(0);
 
   // hours, minutes and seconds passed to the start() in submit handle in millsec.
   let [hour, setHour] = useState(0);
@@ -119,6 +119,7 @@ export const Timer = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     let total = hour + minute + second;
+    console.log(submittedHours, submittedMins, submittedSeconds);
     if (
       (submittedHours >= 24 && submittedMins >= 1 && submittedSeconds >= 1) ||
       submittedHours >= 24
@@ -131,12 +132,7 @@ export const Timer = ({
     if (submittedSeconds >= 60) {
       return setError("Seconds must be between 0 -59 sec");
     }
-    if (
-      submittedHours <= 0 ||
-      (null && submittedMins <= 0) ||
-      (null && submittedSeconds <= 0) ||
-      null
-    ) {
+    if (submittedHours <= 0 && submittedMins <= 0 && submittedSeconds <= 0) {
       return alert("Please enter time to start timer");
     } else {
       setRunning(true);
@@ -209,6 +205,8 @@ export const Timer = ({
 
   return (
     <>
+      {" "}
+      {/* start of Edit timer */}
       <div className={editView ? "timer" : "hide-timer"}>
         <Input
           type="text"
@@ -233,6 +231,10 @@ export const Timer = ({
             type="number"
             name="hours"
             value={submittedHours}
+            onFocus={() => setSubmittedHours("")}
+            onBlur={() => {
+              submittedHours === "" ? setSubmittedHours(0) : submittedHours;
+            }}
             onChange={FormValidation}
           />
           <label htmlFor="hours">hours</label>
@@ -241,6 +243,10 @@ export const Timer = ({
             type="number"
             name="mins"
             value={submittedMins}
+            onFocus={() => setSubmittedMins("")}
+            onBlur={() => {
+              submittedMins === "" ? setSubmittedMins(0) : submittedMins;
+            }}
             onChange={FormValidation}
           />
           <label htmlFor="hours">mins</label>
@@ -249,6 +255,12 @@ export const Timer = ({
             type="number"
             name="seconds"
             value={submittedSeconds}
+            onFocus={() => setSubmittedSeconds("")}
+            onBlur={() => {
+              submittedSeconds === ""
+                ? setSubmittedSeconds(0)
+                : submittedSeconds;
+            }}
             onChange={FormValidation}
           />
           <label htmlFor="hours">secs</label>
@@ -284,6 +296,8 @@ export const Timer = ({
           )}
         </div>
       </div>
+      {/* end of edit timer */}
+      {/* start of face/display timer */}
       <div className={!editView ? "timer" : "hide-timer"}>
         <div className="buttons-container">
           <Button
@@ -295,11 +309,11 @@ export const Timer = ({
             edit timer
           </Button>
           <h3>{name}</h3>
+
           {running ? (
             <>
               <p>
                 {runningHours}:{runningMins}:{runningSeconds}
-                {/* {runningHours} Hours : {runningMins} Mins : {runningSeconds} Secs */}
               </p>
               <Button
                 id="add-minute-button"
@@ -310,7 +324,13 @@ export const Timer = ({
               </Button>
             </>
           ) : (
-            <></>
+            <p>
+              {submittedHours < 10 ? `0${submittedHours}` : submittedHours}:
+              {submittedMins < 10 ? `0${submittedMins}` : submittedMins}:
+              {submittedSeconds < 10
+                ? `0${submittedSeconds}`
+                : submittedSeconds}
+            </p>
           )}
           <div className="start-cancel-buttons">
             {!running && (
