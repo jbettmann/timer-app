@@ -210,8 +210,31 @@ export const Timer = ({
     setEditView(true);
   };
 
-  const saveTimerEdits = () => {
-    setEditView(false);
+  const handleBlur = (e) => {
+    if (e.target.name === "hours") {
+      if (submittedHours === "") {
+        setSubmittedHours(0);
+        setHour(0);
+      } else {
+        submittedHours;
+      }
+    }
+    if (e.target.name === "mins") {
+      if (submittedMins === "") {
+        setSubmittedMins(0);
+        setMinute(0);
+      } else {
+        submittedMins;
+      }
+    }
+    if (e.target.name === "seconds") {
+      if (submittedSeconds === "") {
+        setSubmittedSeconds(0);
+        setSecond(0);
+      } else {
+        submittedSeconds;
+      }
+    }
   };
 
   useEffect(() => {
