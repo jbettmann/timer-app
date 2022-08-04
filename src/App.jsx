@@ -46,14 +46,31 @@ function App() {
     saveTimerToStorage(timerList);
   };
 
-  const changeTimer = (name) => {
-    // const newTimer = {
-    //   id: timers.id,
-    //   name: name,
-    //   total: timers.total,
-    // };
-    // const newNamedTimerList = [...timers, newTimer];
-    // saveTimerToStorage(newNamedTimerList);
+  // saves changes to timers
+  const changeTimer = (id, total, name) => {
+    // get timers from localStorage
+    let data = JSON.parse(localStorage.getItem("timers"));
+    // check if timer excites
+    let newTimer = data.find((timer) => timer.id === id);
+    // if new timer does excites...
+    if (newTimer) {
+      //and the name parm is present, change name of timer
+      if (name) {
+        newTimer.name = name;
+      }
+      // if total parm is present, change total
+      if (total) {
+        newTimer.total = total;
+      }
+    } else {
+      data.push({
+        id,
+        total,
+        name,
+      });
+    }
+    console.log(data);
+    saveTimerToStorage(data);
   };
 
   // Opens new timer modal
@@ -66,10 +83,12 @@ function App() {
     setOpen(false);
   };
   useEffect(() => {
-    //checks if any timers are in localStorage and if so, gets them.
+    //checks if any timers are in localStorage and if so, gets them and if not, set them.
     const items = JSON.parse(localStorage.getItem("timers"));
     if (items) {
       setTimers(items);
+    } else {
+      localStorage.setItem("timers", JSON.stringify(timers));
     }
   }, []);
 
@@ -81,6 +100,7 @@ function App() {
           key={timer.id}
           id={timer.id}
           name={timer.name}
+          total={timer.total}
           newTimer={timer.newTimer}
           timeFromModal={totalTime}
           deleteTimer={deleteTimer}
