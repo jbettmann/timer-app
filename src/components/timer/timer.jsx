@@ -10,6 +10,7 @@ export const Timer = ({
   deleteTimer,
   id,
   name,
+  total,
   newTimer,
   timeFromModal,
   changeTimer,
@@ -23,6 +24,9 @@ export const Timer = ({
   );
   // name of timer
   const [timerName, setTimerName] = useState(name);
+
+  //timer total to total default
+  // const [newTotalTime, setNewTotalTime] = useState(total);
 
   // state for when timer is running
   const [running, setRunning] = useState(false);
@@ -43,9 +47,15 @@ export const Timer = ({
   const [editView, setEditView] = useState(false);
 
   // display time initially submitted by user before time starts running.
-  let [submittedHours, setSubmittedHours] = useState(0);
-  let [submittedMins, setSubmittedMins] = useState(0);
-  let [submittedSeconds, setSubmittedSeconds] = useState(0);
+  let [submittedHours, setSubmittedHours] = useState(
+    Math.floor((total % (24 * 60 * 60 * 1000)) / (1000 * 60 * 60))
+  );
+  let [submittedMins, setSubmittedMins] = useState(
+    Math.floor((total % (60 * 60 * 1000)) / (1000 * 60))
+  );
+  let [submittedSeconds, setSubmittedSeconds] = useState(
+    Math.floor((total % (1000 * 60)) / 1000)
+  );
 
   // hours, minutes and seconds passed to the start() in submit handle in millsec.
   let [hour, setHour] = useState(0);
@@ -115,10 +125,18 @@ export const Timer = ({
     setAudioPlay(new Audio(AlertAudio));
   };
 
+  const startFromDisplay = () => {
+    setRunning(true);
+    setTimerFinished(true);
+    setError("");
+    setEditView(false);
+    start(total);
+  };
+
   // sets Running state to true and adds hour, minutes and seconds to total then submitted to start() in millsec.
   const handleSubmit = (e) => {
     e.preventDefault();
-    let total = hour + minute + second;
+    let newTotalTimer = hour + minute + second;
     console.log(submittedHours, submittedMins, submittedSeconds);
     if (
       (submittedHours >= 24 && submittedMins >= 1 && submittedSeconds >= 1) ||
@@ -135,11 +153,13 @@ export const Timer = ({
     if (submittedHours <= 0 && submittedMins <= 0 && submittedSeconds <= 0) {
       return alert("Please enter time to start timer");
     } else {
+      changeTimer(id, newTotalTimer, timerName);
       setRunning(true);
-      start(total);
+      setTimerPause(false);
       setTimerFinished(true);
       setError("");
       setEditView(false);
+      start(newTotalTimer);
     }
   };
 
@@ -154,9 +174,9 @@ export const Timer = ({
   // Repeats timer
   const handleRepeat = (e) => {
     e.preventDefault(e);
-    let total = hour + minute + second;
-    stopAudio(); //stops audio and sets to og
     start(total);
+    stopAudio(); //stops audio and sets to og
+
     setShowTimesUpModal(false);
   };
 
@@ -232,9 +252,7 @@ export const Timer = ({
             name="hours"
             value={submittedHours}
             onFocus={() => setSubmittedHours("")}
-            onBlur={() => {
-              submittedHours === "" ? setSubmittedHours(0) : submittedHours;
-            }}
+            onBlur={handleBlur}
             onChange={FormValidation}
           />
           <label htmlFor="hours">hours</label>
@@ -244,9 +262,7 @@ export const Timer = ({
             name="mins"
             value={submittedMins}
             onFocus={() => setSubmittedMins("")}
-            onBlur={() => {
-              submittedMins === "" ? setSubmittedMins(0) : submittedMins;
-            }}
+            onBlur={handleBlur}
             onChange={FormValidation}
           />
           <label htmlFor="hours">mins</label>
@@ -256,11 +272,7 @@ export const Timer = ({
             name="seconds"
             value={submittedSeconds}
             onFocus={() => setSubmittedSeconds("")}
-            onBlur={() => {
-              submittedSeconds === ""
-                ? setSubmittedSeconds(0)
-                : submittedSeconds;
-            }}
+            onBlur={handleBlur}
             onChange={FormValidation}
           />
           <label htmlFor="hours">secs</label>
@@ -282,7 +294,7 @@ export const Timer = ({
               variant="contained"
               color="secondary"
               title="Save"
-              onClick={saveTimerEdits}
+              onClick={handleSubmit}
             >
               Save
             </Button>
@@ -339,7 +351,7 @@ export const Timer = ({
                 color="secondary"
                 type="submit"
                 title="Start"
-                onClick={handleSubmit}
+                onClick={startFromDisplay}
               >
                 Start
               </Button>
