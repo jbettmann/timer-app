@@ -1,4 +1,9 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600&display=swap');
+
+
 .App {
+  font-family: 'Montserrat', sans-serif;
   text-align: center;
   font-size: 2rem;
   display: flex;
@@ -12,6 +17,11 @@
   pointer-events: none;
 }
 
+.timers {
+  display: flex;
+  flex: 1;
+
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

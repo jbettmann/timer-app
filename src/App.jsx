@@ -5,6 +5,7 @@ import "./App.css";
 import { Timer } from "./components/timer/timer";
 import { NewTimerModal } from "./components/new-timer-modal/new-timer-modal";
 import { SearchTimers } from "./components/search-timers/search-timers";
+import { Button } from "@mui/material";
 
 function App() {
   // Gets timer state from localStorage
@@ -20,6 +21,16 @@ function App() {
   const [open, setOpen] = useState(false);
 
   const [search, setSearch] = useState("");
+
+  // Filters timers when search input changes
+  let filteredTimers = timers;
+
+  if (search !== "") {
+    let regex = new RegExp(search, "gi");
+    filteredTimers = timers.filter((timer) => {
+      return timer.name.match(regex);
+    });
+  }
 
   // Save timers to localStorage
   const saveTimerToStorage = (timerItem) => {
@@ -82,6 +93,7 @@ function App() {
   const handleClose = () => {
     setOpen(false);
   };
+
   useEffect(() => {
     //checks if any timers are in localStorage and if so, gets them and if not, set them.
     const items = JSON.parse(localStorage.getItem("timers"));
@@ -94,21 +106,22 @@ function App() {
 
   return (
     <div className="App">
-      {/* <SearchTimers search={search} setSearch={setSearch} /> */}
-      {timers.map((timer) => (
-        <Timer
-          key={timer.id}
-          id={timer.id}
-          name={timer.name}
-          total={timer.total}
-          newTimer={timer.newTimer}
-          timeFromModal={totalTime}
-          deleteTimer={deleteTimer}
-          changeTimer={changeTimer}
-        />
+      <SearchTimers search={search} setSearch={setSearch} />
+      {filteredTimers.map((timer) => (
+        <div key={timer.id} className="timers">
+          <Timer
+            id={timer.id}
+            name={timer.name}
+            total={timer.total}
+            newTimer={timer.newTimer}
+            timeFromModal={totalTime}
+            deleteTimer={deleteTimer}
+            changeTimer={changeTimer}
+          />
+        </div>
       ))}
 
-      <button onClick={handleClickOpen}>Add Timer</button>
+      <Button onClick={handleClickOpen}>Add Timer</Button>
       <NewTimerModal
         open={open}
         handleClose={handleClose}
