@@ -1,11 +1,10 @@
 .timer {
-  background-color: rgba(117, 117, 117, 0.798);
-  color: #fff;
-  width: 50%;
+  border: 1px solid rgba(117, 117, 117, 0.798);
+  width: 50vw;
   margin: 2rem 0;
   padding: 1rem;
   border-radius: 20px;
-  filter: drop-shadow(0 1px 2px rgb(63, 58, 58));
+  box-shadow:  0px 2px 20px 1px rgb(65 15 73);
 }
 
 h3, p {

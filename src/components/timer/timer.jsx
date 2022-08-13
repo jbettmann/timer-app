@@ -137,7 +137,6 @@ export const Timer = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     let newTotalTimer = hour + minute + second;
-    console.log(submittedHours, submittedMins, submittedSeconds);
     if (
       (submittedHours >= 24 && submittedMins >= 1 && submittedSeconds >= 1) ||
       submittedHours >= 24
@@ -161,6 +160,12 @@ export const Timer = ({
       setEditView(false);
       start(newTotalTimer);
     }
+  };
+
+  const handleSave = () => {
+    let newTotalTimer = hour + minute + second;
+    changeTimer(id, newTotalTimer, timerName);
+    setEditView(false);
   };
 
   // Starts timer once time is set in new timer modal
@@ -239,6 +244,7 @@ export const Timer = ({
 
   useEffect(() => {
     alertFinish();
+    console.log(hour, minute, second);
     // checks if newTimerFromModal is true to run startTimerFromModal
     if (newTimeFromModal) {
       startTimerFromModal();
@@ -248,9 +254,8 @@ export const Timer = ({
 
   return (
     <>
-      {" "}
       {/* start of Edit timer */}
-      <div className={editView ? "timer" : "hide-timer"}>
+      <div className={editView ? "timer " : "hide-timer"}>
         <Input
           type="text"
           name="name"
@@ -259,7 +264,7 @@ export const Timer = ({
             setTimerName(e.target.value);
           }}
         />
-        <h3>{name}</h3>
+
         {running ? (
           <p>
             {runningHours}:{runningMins}:{runningSeconds}
@@ -269,7 +274,7 @@ export const Timer = ({
           <></>
         )}
 
-        <form className="timer-form" onSubmit={handleSubmit}>
+        <form className="timer-form">
           <Input
             type="number"
             name="hours"
@@ -317,7 +322,7 @@ export const Timer = ({
               variant="contained"
               color="secondary"
               title="Save"
-              onClick={handleSubmit}
+              onClick={handleSave}
             >
               Save
             </Button>
