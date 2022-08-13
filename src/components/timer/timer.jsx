@@ -58,9 +58,9 @@ export const Timer = ({
   );
 
   // hours, minutes and seconds passed to the start() in submit handle in millsec.
-  let [hour, setHour] = useState(0);
-  let [minute, setMinute] = useState(0);
-  let [second, setSecond] = useState(0);
+  let [second, setSecond] = useState(submittedSeconds * 1000);
+  let [minute, setMinute] = useState(submittedMins * 60 * 1000);
+  let [hour, setHour] = useState(submittedHours * 60 * 60 * 1000);
 
   // sets audio state to audio file
   const [audioPlay, setAudioPlay] = useState(new Audio(AlertAudio));
@@ -151,6 +151,15 @@ export const Timer = ({
     }
     if (submittedHours <= 0 && submittedMins <= 0 && submittedSeconds <= 0) {
       return alert("Please enter time to start timer");
+    }
+    if (hour === 0 && minute === 0 && second === 0) {
+      changeTimer(id, newTotalTimer, timerName);
+      setRunning(true);
+      setTimerPause(false);
+      setTimerFinished(true);
+      setError("");
+      setEditView(false);
+      start(total);
     } else {
       changeTimer(id, newTotalTimer, timerName);
       setRunning(true);
@@ -244,7 +253,7 @@ export const Timer = ({
 
   useEffect(() => {
     alertFinish();
-    console.log(hour, minute, second);
+    console.log("hour:", hour, minute, second);
     // checks if newTimerFromModal is true to run startTimerFromModal
     if (newTimeFromModal) {
       startTimerFromModal();
