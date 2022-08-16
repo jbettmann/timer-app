@@ -57,6 +57,11 @@ export const Timer = ({
     Math.floor((total % (1000 * 60)) / 1000)
   );
 
+  // holds previous state of submitted time for cancel button when editing
+  let prevHour = useRef(submittedHours);
+  let prevMins = useRef(submittedMins);
+  let prevSecs = useRef(submittedSeconds);
+  let prevName = useRef(name);
   // hours, minutes and seconds passed to the start() in submit handle in millsec.
   let [second, setSecond] = useState(submittedSeconds * 1000);
   let [minute, setMinute] = useState(submittedMins * 60 * 1000);
@@ -171,9 +176,12 @@ export const Timer = ({
     }
   };
 
-  const handleSave = () => {
-    let newTotalTimer = hour + minute + second;
-    changeTimer(id, newTotalTimer, timerName);
+  // Cancels all edits from edit timer
+  const handleCancel = () => {
+    setSubmittedHours(prevHour.current);
+    setSubmittedMins(prevMins.current);
+    setSubmittedSeconds(prevSecs.current);
+    setTimerName(prevName.current);
     setEditView(false);
   };
 
