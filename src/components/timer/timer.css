@@ -1,16 +1,67 @@
+:root {
+  --font-color: #bfbfbf;
+  --timer-size: 4rem;
+  --name-size: 2rem;
+  --box-shadow: -1px -1px 4px 0px #121212;
+  }
+
 .timer {
-  border: 1px solid rgba(117, 117, 117, 0.798);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  color: var(--font-color);
   width: 50vw;
+ 
   margin: 2rem 0;
   padding: 1rem;
   border-radius: 20px;
-  box-shadow:  0px 2px 20px 1px rgb(65 15 73);
+  box-shadow:  0px 2px 20px 1px rgb(106, 106, 106);
 }
 
-h3, p {
+h3{
   font-weight: 300;
+  font-size: var(--name-size);
   margin: 1rem;
 }
+
+p {
+  font-size: var(--timer-size);
+  margin: 1rem;
+}
+
+#edit-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.start-cancel-buttons {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.cancel-button {
+  margin-top: 1rem;
+}
+
+#save-edits__button {
+  position: absolute;
+  top: 15px;
+  right: 12px;
+}
+
+#cancel-edits__button {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+.play-button {
+  box-shadow: var(--box-shadow);
+}
+
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
@@ -24,11 +75,23 @@ input[type=number]::-webkit-outer-spin-button {
 
 .timer-form {
   display: flex;
+  align-items: center;
+}
+
+input {
+  text-align: center;
+  color: var(--font-color) !important;
+  border-radius: 20px !important;
+  box-shadow: var(--box-shadow);
+  text-decoration: none !important;
 }
 
 label {
   font-size: 1rem;
+  margin-right: 1rem;
+  margin-left: .5rem;
 }
+
 
 #add-minute-button {
   font-size: 12px;
@@ -42,4 +105,13 @@ label {
 
 .hide-timer {
   display: none;
+}
+
+
+
+@media (width <= 600px ) {
+  #edit-icon {
+    font-size: 15px;
+ 
+  }
 }

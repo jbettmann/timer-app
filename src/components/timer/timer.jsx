@@ -2,7 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import useCountDown from "react-countdown-hook";
 import AlertAudio from "../../assets/2001_Alert.mp3";
 import { TimesUp } from "../times-up/times-up";
-import { Button, Input } from "@mui/material";
+import { Button, Input, IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
 
 import "./timer.css";
 
@@ -141,6 +144,7 @@ export const Timer = ({
   // sets Running state to true and adds hour, minutes and seconds to total then submitted to start() in millsec.
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("event handleSubmit:", e);
     let newTotalTimer = hour + minute + second;
     if (
       (submittedHours >= 24 && submittedMins >= 1 && submittedSeconds >= 1) ||
@@ -173,6 +177,25 @@ export const Timer = ({
       setError("");
       setEditView(false);
       start(newTotalTimer);
+    }
+  };
+  // Saves edits to timer
+  const handleSave = (e) => {
+    if (
+      (submittedHours >= 24 && submittedMins >= 1 && submittedSeconds >= 1) ||
+      submittedHours >= 24
+    ) {
+      return setError("Hours must be under 24 for timer to run");
+    }
+    if (submittedMins >= 60) {
+      return setError("Minutes must be between 0 -59 min");
+    }
+    if (submittedSeconds >= 60) {
+      return setError("Seconds must be between 0 -59 sec");
+    } else {
+      let newTotalTimer = hour + minute + second;
+      changeTimer(id, newTotalTimer, timerName);
+      setEditView(false);
     }
   };
 
@@ -261,7 +284,7 @@ export const Timer = ({
 
   useEffect(() => {
     alertFinish();
-    console.log("hour:", hour, minute, second);
+
     // checks if newTimerFromModal is true to run startTimerFromModal
     if (newTimeFromModal) {
       startTimerFromModal();
@@ -273,7 +296,30 @@ export const Timer = ({
     <>
       {/* start of Edit timer */}
       <div className={editView ? "timer " : "hide-timer"}>
+        <div className="start-cancel-buttons">
+          <Button
+            size="small"
+            aria-label="Cancel timer edits"
+            id="cancel-edits__button"
+            color="secondary"
+            title="Cancel"
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
+          <Button
+            size="small"
+            aria-label="Save timer changes"
+            id="save-edits__button"
+            color="secondary"
+            title="Save"
+            onClick={handleSave}
+          >
+            Save
+          </Button>
+        </div>
         <Input
+          disableUnderline
           type="text"
           name="name"
           value={timerName}
@@ -293,60 +339,63 @@ export const Timer = ({
 
         <form className="timer-form">
           <Input
+            disableUnderline
             type="number"
             name="hours"
+            className="timer-inputs"
             value={submittedHours}
             onFocus={() => setSubmittedHours("")}
             onBlur={handleBlur}
             onChange={FormValidation}
           />
-          <label htmlFor="hours">hours</label>
+          <label htmlFor="hours">hrs</label>
 
           <Input
+            disableUnderline
             type="number"
             name="mins"
+            className="timer-inputs"
             value={submittedMins}
             onFocus={() => setSubmittedMins("")}
             onBlur={handleBlur}
             onChange={FormValidation}
           />
-          <label htmlFor="hours">mins</label>
+          <label htmlFor="minutes">mins</label>
 
           <Input
+            disableUnderline
             type="number"
+            className="timer-inputs"
             name="seconds"
             value={submittedSeconds}
             onFocus={() => setSubmittedSeconds("")}
             onBlur={handleBlur}
             onChange={FormValidation}
           />
-          <label htmlFor="hours">secs</label>
+          <label htmlFor="seconds">secs</label>
         </form>
         <div className="error">{error}</div>
 
         <div className="buttons-container">
-          <div className="start-cancel-buttons">
-            <Button
-              variant="contained"
-              color="secondary"
-              type="submit"
-              title="Start"
-              onClick={handleSubmit}
-            >
-              Start
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              title="Save"
-              onClick={handleSave}
-            >
-              Save
-            </Button>
-          </div>
+          <IconButton
+            aria-label="Start timer"
+            color="secondary"
+            className="play-button"
+            type="submit"
+            title="Start"
+            onClick={handleSubmit}
+          >
+            <PlayArrowIcon sx={{ fontSize: 60 }} />
+          </IconButton>
+
           {newTimer ? (
-            <Button onClick={deleteTimer} value={id} aria-label="delete timer">
-              Delete Timer
+            <Button
+              id="delete-timer"
+              value={id}
+              aria-label="delete timer"
+              onClick={deleteTimer}
+            >
+              Delete
             </Button>
           ) : (
             <></>
@@ -356,102 +405,110 @@ export const Timer = ({
       {/* end of edit timer */}
       {/* start of face/display timer */}
       <div className={!editView ? "timer" : "hide-timer"}>
-        <div className="buttons-container">
-          <Button
-            variant="contained"
-            color="secondary"
-            title="edit"
-            onClick={editTimer}
-          >
-            edit timer
-          </Button>
-          <h3>{name}</h3>
+        <EditIcon
+          id="edit-icon"
+          aria-label="Edit timer"
+          fontSize="small"
+          color="secondary"
+          onClick={editTimer}
+        />
 
-          {running ? (
-            <>
-              <p>
-                {runningHours}:{runningMins}:{runningSeconds}
-              </p>
-              <Button
-                id="add-minute-button"
-                title="Add a minute"
-                onClick={addAMinute}
-              >
-                +1 Minute
-              </Button>
-            </>
-          ) : (
+        <h3>{name}</h3>
+
+        {running ? (
+          <>
             <p>
-              {submittedHours < 10 ? `0${submittedHours}` : submittedHours}:
-              {submittedMins < 10 ? `0${submittedMins}` : submittedMins}:
-              {submittedSeconds < 10
-                ? `0${submittedSeconds}`
-                : submittedSeconds}
+              {runningHours}:{runningMins}:{runningSeconds}
             </p>
-          )}
-          <div className="start-cancel-buttons">
-            {!running && (
-              <Button
-                variant="contained"
-                color="secondary"
-                type="submit"
-                title="Start"
-                onClick={startFromDisplay}
-              >
-                Start
-              </Button>
-            )}
-            {running && !timerPause ? (
-              <Button
-                variant="contained"
-                color="secondary"
-                title="Pause"
-                onClick={() => {
-                  pause();
-                  setTimerPause(true);
-                  setTimerFinished(false);
-                }}
-              >
-                Pause
-              </Button>
-            ) : (
-              running &&
-              timerPause && (
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  title="resume"
-                  onClick={() => {
-                    resume();
-                    setTimerPause(false);
-                    setTimerFinished(true);
-                  }}
-                >
-                  Resume
-                </Button>
-              )
-            )}
-            {!running ? (
-              <Button color="secondary">cancel</Button>
-            ) : (
-              <Button
-                variant="contained"
-                color="secondary"
-                title="Cancel"
-                onClick={handleReset}
-              >
-                Cancel
-              </Button>
-            )}
-          </div>
-          {newTimer ? (
-            <Button onClick={deleteTimer} value={id} aria-label="delete timer">
-              Delete Timer
+            <Button
+              size="small"
+              aria-label="Add one minute to timer"
+              id="add-minute-button"
+              title="Add a minute"
+              onClick={addAMinute}
+            >
+              +1 Minute
+            </Button>
+          </>
+        ) : (
+          <p>
+            {submittedHours < 10 ? `0${submittedHours}` : submittedHours}:
+            {submittedMins < 10 ? `0${submittedMins}` : submittedMins}:
+            {submittedSeconds < 10 ? `0${submittedSeconds}` : submittedSeconds}
+          </p>
+        )}
+        <div className="start-cancel-buttons">
+          {running ? (
+            <Button
+              size="small"
+              className="cancel-button"
+              aria-label="Cancel timer"
+              variant="outlined"
+              color="secondary"
+              title="Cancel"
+              onClick={handleReset}
+            >
+              Cancel
             </Button>
           ) : (
             <></>
           )}
+          {!running && (
+            <IconButton
+              aria-label="Start timer"
+              className="play-button"
+              color="secondary"
+              title="Start"
+              onClick={startFromDisplay}
+            >
+              <PlayArrowIcon sx={{ fontSize: 60 }} />
+            </IconButton>
+          )}
+          {running && !timerPause ? (
+            <IconButton
+              aria-label="Pause timer"
+              color="secondary"
+              title="Pause"
+              onClick={() => {
+                pause();
+                setTimerPause(true);
+                setTimerFinished(false);
+              }}
+            >
+              <PauseIcon sx={{ fontSize: 60 }} />
+            </IconButton>
+          ) : (
+            running &&
+            timerPause && (
+              <IconButton
+                aria-label="Resume timer"
+                className="play-button"
+                color="secondary"
+                title="resume"
+                onClick={() => {
+                  resume();
+                  setTimerPause(false);
+                  setTimerFinished(true);
+                }}
+              >
+                <PlayArrowIcon sx={{ fontSize: 60 }} />
+              </IconButton>
+            )
+          )}
         </div>
+        {newTimer ? (
+          <Button
+            size="large"
+            id="delete-timer"
+            aria-label="delete timer"
+            value={id}
+            onClick={deleteTimer}
+          >
+            Delete
+          </Button>
+        ) : (
+          <></>
+        )}
       </div>
       <TimesUp
         open={showTimesUpModal}
