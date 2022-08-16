@@ -5,7 +5,8 @@ import "./App.css";
 import { Timer } from "./components/timer/timer";
 import { NewTimerModal } from "./components/new-timer-modal/new-timer-modal";
 import { SearchTimers } from "./components/search-timers/search-timers";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
+import AddAlarmIcon from "@mui/icons-material/AddAlarm";
 
 function App() {
   // Gets timer state from localStorage
@@ -107,6 +108,11 @@ function App() {
   return (
     <div className="App">
       <SearchTimers search={search} setSearch={setSearch} />
+
+      <IconButton onClick={handleClickOpen}>
+        <AddAlarmIcon color="secondary" />
+      </IconButton>
+
       {filteredTimers.map((timer) => (
         <div key={timer.id} className="timers">
           <Timer
@@ -121,7 +127,6 @@ function App() {
         </div>
       ))}
 
-      <Button onClick={handleClickOpen}>Add Timer</Button>
       <NewTimerModal
         open={open}
         handleClose={handleClose}
