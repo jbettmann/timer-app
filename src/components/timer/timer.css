@@ -117,7 +117,7 @@ label {
 
 
 
-@media (width <= 1300px ) {
+@media all and (width <= 1300px ) {
   .timer {
     width: 100%;
     box-shadow: none;
