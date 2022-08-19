@@ -16,8 +16,6 @@ function App() {
     { id: nanoid(), name: "Boil", total: 36000000 },
   ]);
 
-  const [totalTime, setTotalTime] = useState(0);
-
   // sets state of modal for new timer. Default is to not show
   const [open, setOpen] = useState(false);
 
@@ -40,14 +38,13 @@ function App() {
   };
 
   // Adds new time to timer array and sets name and total time added
-  const addNewTimer = (timerName, total) => {
+  const addNewTimer = (timerName, total, save) => {
     const newTimerAdded = {
       id: nanoid(),
       name: timerName,
-      newTimer: true,
+      newTimer: save,
       total: total,
     };
-    setTotalTime(total);
     const newTimerList = [...timers, newTimerAdded];
     saveTimerToStorage(newTimerList);
   };
@@ -107,26 +104,30 @@ function App() {
 
   return (
     <div className="App">
-      <SearchTimers search={search} setSearch={setSearch} />
+      <div className="nav">
+        <h1>Timer++</h1>
+        <div className="search-add">
+          <SearchTimers search={search} setSearch={setSearch} />
 
-      <IconButton onClick={handleClickOpen}>
-        <AddAlarmIcon color="secondary" />
-      </IconButton>
-
-      {filteredTimers.map((timer) => (
-        <div key={timer.id} className="timers">
-          <Timer
-            id={timer.id}
-            name={timer.name}
-            total={timer.total}
-            newTimer={timer.newTimer}
-            timeFromModal={totalTime}
-            deleteTimer={deleteTimer}
-            changeTimer={changeTimer}
-          />
+          <IconButton onClick={handleClickOpen}>
+            <AddAlarmIcon color="secondary" />
+          </IconButton>
         </div>
-      ))}
-
+      </div>
+      <div className="scroll-container">
+        {filteredTimers.map((timer) => (
+          <div key={timer.id} className="timers">
+            <Timer
+              id={timer.id}
+              name={timer.name}
+              total={timer.total}
+              newTimer={timer.newTimer}
+              deleteTimer={deleteTimer}
+              changeTimer={changeTimer}
+            />
+          </div>
+        ))}
+      </div>
       <NewTimerModal
         open={open}
         handleClose={handleClose}

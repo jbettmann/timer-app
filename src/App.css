@@ -1,7 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600&display=swap');
+:root {
+  --background: #292929;
+  }
 
+h1 {
+  color: #9c27b0;
+  margin-left: 5rem;
+}
 
-
+.scroll-container{
+  max-height: 100vh;
+  width: 100vw;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
 
 .App {
   font-family: 'Montserrat', sans-serif;
@@ -17,11 +29,33 @@
   pointer-events: none;
 }
 
+
+
 .timers {
   display: flex;
-  height: 80vh;
+  justify-content: center;
+  height: 100vh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
+.nav {
+  background-color: var(--background);
+  position: fixed;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 1rem;
+  justify-content: space-between;
+  
+}
+
+.search-add {
+  display: flex;
+  align-items: center;
+  margin-right: 5rem;
+
+}
 
 
 @media (prefers-reduced-motion: no-preference) {
@@ -30,6 +64,12 @@
   }
 }
 
+@media (width <= 500px) {
+  .nav {
+    flex-direction: column;
+    justify-content: center;
+  } 
+}
 
 .App-link {
   color: #61dafb;

@@ -15,7 +15,6 @@ export const Timer = ({
   name,
   total,
   newTimer,
-  timeFromModal,
   changeTimer,
 }) => {
   // useCountDown hook.
@@ -44,7 +43,7 @@ export const Timer = ({
   const [showTimesUpModal, setShowTimesUpModal] = useState(false);
 
   // Time submitted from modal for new timer
-  const [newTimeFromModal, setNewTimeFromModal] = useState(timeFromModal);
+  const [newTimeFromModal, setNewTimeFromModal] = useState(newTimer);
 
   // controls edit view display
   const [editView, setEditView] = useState(false);
@@ -210,7 +209,7 @@ export const Timer = ({
 
   // Starts timer once time is set in new timer modal
   const startTimerFromModal = () => {
-    start(newTimeFromModal);
+    start(total);
     setRunning(true);
     setTimerFinished(true);
     setError("");
@@ -322,6 +321,7 @@ export const Timer = ({
           disableUnderline
           type="text"
           name="name"
+          className="timer-inputs"
           value={timerName}
           onChange={(e) => {
             setTimerName(e.target.value);
@@ -376,11 +376,11 @@ export const Timer = ({
         </form>
         <div className="error">{error}</div>
 
-        <div className="buttons-container">
+        <div className="start-cancel-buttons">
           <IconButton
             aria-label="Start timer"
             color="secondary"
-            className="play-button"
+            className="play-button play_pause"
             type="submit"
             title="Start"
             onClick={handleSubmit}
@@ -388,33 +388,30 @@ export const Timer = ({
             <PlayArrowIcon sx={{ fontSize: 60 }} />
           </IconButton>
 
-          {newTimer ? (
-            <Button
-              id="delete-timer"
-              value={id}
-              aria-label="delete timer"
-              onClick={deleteTimer}
-            >
-              Delete
-            </Button>
-          ) : (
-            <></>
-          )}
+          <Button
+            id="delete-timer"
+            value={id}
+            aria-label="delete timer"
+            onClick={deleteTimer}
+          >
+            Delete
+          </Button>
         </div>
       </div>
       {/* end of edit timer */}
       {/* start of face/display timer */}
       <div className={!editView ? "timer" : "hide-timer"}>
-        <EditIcon
-          id="edit-icon"
-          aria-label="Edit timer"
-          fontSize="small"
-          color="secondary"
-          onClick={editTimer}
-        />
+        <div className="edit-timer">
+          <EditIcon
+            id="edit-icon"
+            aria-label="Edit timer"
+            fontSize="small"
+            color="secondary"
+            onClick={editTimer}
+          />
 
-        <h3>{name}</h3>
-
+          <h3>{name}</h3>
+        </div>
         {running ? (
           <>
             <p>
@@ -438,21 +435,6 @@ export const Timer = ({
           </p>
         )}
         <div className="start-cancel-buttons">
-          {running ? (
-            <Button
-              size="small"
-              className="cancel-button"
-              aria-label="Cancel timer"
-              variant="outlined"
-              color="secondary"
-              title="Cancel"
-              onClick={handleReset}
-            >
-              Cancel
-            </Button>
-          ) : (
-            <></>
-          )}
           {!running && (
             <IconButton
               aria-label="Start timer"
@@ -467,6 +449,7 @@ export const Timer = ({
           {running && !timerPause ? (
             <IconButton
               aria-label="Pause timer"
+              className="play_pause"
               color="secondary"
               title="Pause"
               onClick={() => {
@@ -482,7 +465,7 @@ export const Timer = ({
             timerPause && (
               <IconButton
                 aria-label="Resume timer"
-                className="play-button"
+                className="play-button play_pause"
                 color="secondary"
                 title="resume"
                 onClick={() => {
@@ -495,20 +478,31 @@ export const Timer = ({
               </IconButton>
             )
           )}
+          {running ? (
+            <Button
+              size="small"
+              className="cancel-button"
+              aria-label="Cancel timer"
+              variant="outlined"
+              color="secondary"
+              title="Cancel"
+              onClick={handleReset}
+            >
+              Cancel
+            </Button>
+          ) : (
+            <></>
+          )}
         </div>
-        {newTimer ? (
-          <Button
-            size="large"
-            id="delete-timer"
-            aria-label="delete timer"
-            value={id}
-            onClick={deleteTimer}
-          >
-            Delete
-          </Button>
-        ) : (
-          <></>
-        )}
+        <Button
+          size="large"
+          id="delete-timer"
+          aria-label="delete timer"
+          value={id}
+          onClick={deleteTimer}
+        >
+          Delete
+        </Button>
       </div>
       <TimesUp
         open={showTimesUpModal}

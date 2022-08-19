@@ -4,7 +4,7 @@ import "./search-timers.css";
 export const SearchTimers = ({ search, setSearch }) => {
   return (
     <form className="search-form" onSubmit={(e) => e.preventDefault()}>
-      <label htmlFor="search"></label>
+      <label htmlFor="search" className="search-label"></label>
       <input
         className="search"
         type="search"

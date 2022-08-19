@@ -1,0 +1,44 @@
+:root {
+  --font-color: #bfbfbf;
+  --timer-size: 4rem;
+  --name-size: 2rem;
+  --box-shadow: -1px -1px 4px 0px #121212;
+  --background: #292929;
+  }
+
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100% !important;
+  height: 50%;
+  border-radius: 20px !important;
+  padding: 1rem;
+}
+
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  display: none !important;
+}
+
+.css-ypiqx9-MuiDialogContent-root {
+  flex: none !important;
+}
+
+.error {
+  text-align: center;
+}
+
+.new-timer__form {
+  display: flex;
+  justify-content: center;
+}
+
+form > p {
+  margin: .5rem;
+  padding: 0;
+  font-size: 1.5rem;
+}
+
+::placeholder {
+  color: var(--background) !important;
+}
