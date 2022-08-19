@@ -5,7 +5,7 @@ import "./App.css";
 import { Timer } from "./components/timer/timer";
 import { NewTimerModal } from "./components/new-timer-modal/new-timer-modal";
 import { SearchTimers } from "./components/search-timers/search-timers";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import AddAlarmIcon from "@mui/icons-material/AddAlarm";
 
 function App() {
