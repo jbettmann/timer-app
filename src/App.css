@@ -69,6 +69,13 @@ h1 {
     flex-direction: column;
     justify-content: center;
   } 
+  h1 {
+    color: #9c27b0;
+    margin-left: 0;
+  }
+  .search-add {
+    margin-right: 0rem;
+  }
 }
 
 .App-link {
