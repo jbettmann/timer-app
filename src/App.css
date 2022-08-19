@@ -64,7 +64,7 @@ h1 {
   }
 }
 
-@media (width <= 500px) {
+@media all and (max-width:500px) {
   .nav {
     flex-direction: column;
     justify-content: center;
