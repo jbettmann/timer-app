@@ -149,9 +149,6 @@ export const NewTimerModal = ({ open, handleClose, addNewTimer }) => {
             Save
           </Button>
         </div>
-        <Button color="secondary" onClick={handleClose}>
-          Close
-        </Button>
         <IconButton
           aria-label="Start timer"
           color="secondary"
