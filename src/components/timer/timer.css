@@ -1,0 +1,133 @@
+:root {
+  --font-color: #bfbfbf;
+  --timer-size: 4rem;
+  --name-size: 2rem;
+  --box-shadow: -1px -1px 4px 0px #121212;
+  }
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  color: var(--font-color);
+  width: 50vw;
+  margin: 2rem 0;
+  padding: 1rem;
+  border-radius: 20px;
+  box-shadow:  0px 2px 20px 1px rgb(106, 106, 106);
+}
+
+h3{
+  font-weight: 300;
+  font-size: var(--name-size);
+  margin: 1rem;
+}
+
+p {
+  font-size: var(--timer-size);
+  margin: 1rem;
+}
+
+#edit-icon {
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.start-cancel-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.
+.cancel-button {
+  margin-top: 1rem;
+}
+
+#save-edits__button {
+  position: absolute;
+  top: 15px;
+  right: 12px;
+}
+
+#cancel-edits__button {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+.play-button {
+  box-shadow: var(--box-shadow);
+}
+
+.play_pause {
+  margin: 2rem !important;
+}
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+}
+
+.error {
+  font-size: .8rem;
+  color: red;
+}
+
+.timer-form {
+  display: flex;
+  align-items: center;
+}
+
+input {
+  text-align: center;
+  border-radius: 20px !important;
+  box-shadow: var(--box-shadow);
+}
+
+.timer-inputs {
+  color: var(--font-color) !important;
+
+}
+
+label {
+  font-size: 1rem;
+  margin-right: 1rem;
+  margin-left: .5rem;
+}
+
+
+#add-minute-button {
+  font-size: 12px;
+  background-color: transparent;
+  color: #9c27b0;
+  border: solid .3px;
+  border-radius: 20px;
+  padding: 5px;
+  margin: 10px;
+}
+
+.hide-timer {
+  display: none;
+}
+
+
+
+@media all and (max-width: 1300px ) {
+  .timer {
+    width: 100%;
+    box-shadow: none;
+  }
+  #edit-icon {
+    position: static;
+  }
+  .edit-timer {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+  }
+}
