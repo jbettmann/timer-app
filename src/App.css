@@ -69,9 +69,16 @@ h1 {
     flex-direction: column;
     justify-content: center;
   } 
+  #add-timer__button{
+    position: absolute;
+    top: 12px;
+    right: 26px;
+  }
   h1 {
     color: #9c27b0;
     margin-left: 0;
+    margin-bottom: .5rem;
+    font-size: 1.5rem;
   }
   .search-add {
     margin-right: 0rem;

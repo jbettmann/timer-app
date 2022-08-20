@@ -109,7 +109,7 @@ function App() {
         <div className="search-add">
           <SearchTimers search={search} setSearch={setSearch} />
 
-          <IconButton onClick={handleClickOpen}>
+          <IconButton onClick={handleClickOpen} id="add-timer__button">
             <AddAlarmIcon color="secondary" />
           </IconButton>
         </div>
