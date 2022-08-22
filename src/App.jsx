@@ -96,10 +96,11 @@ function App() {
     //checks if any timers are in localStorage and if so, gets them and if not, set them.
     const getData = async () => {
       const items = await JSON.parse(localStorage.getItem("timers"));
-      setTimers(items);
       if (!items) {
-        return localStorage.setItem("timers", JSON.stringify(timers));
+        localStorage.setItem("timers", JSON.stringify(timers));
+        return timers;
       }
+      setTimers(items);
     };
     getData();
   }, [timers.length]);
