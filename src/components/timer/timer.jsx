@@ -143,7 +143,6 @@ export const Timer = ({
   // sets Running state to true and adds hour, minutes and seconds to total then submitted to start() in millsec.
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("event handleSubmit:", e);
     let newTotalTimer = hour + minute + second;
     if (
       (submittedHours >= 24 && submittedMins >= 1 && submittedSeconds >= 1) ||
