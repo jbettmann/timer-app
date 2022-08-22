@@ -282,7 +282,7 @@ export const Timer = ({
   };
 
   useEffect(() => {
-    // alertFinish();
+    alertFinish();
 
     // checks if newTimerFromModal is true to run startTimerFromModal
     if (newTimeFromModal) {
