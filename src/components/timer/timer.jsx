@@ -256,7 +256,7 @@ export const Timer = ({
 
   const handleBlur = (e) => {
     if (e.target.name === "hours") {
-      if (submittedHours === "") {
+      if (e.target.value === "") {
         setSubmittedHours(0);
         setHour(0);
       } else {
@@ -264,7 +264,7 @@ export const Timer = ({
       }
     }
     if (e.target.name === "mins") {
-      if (submittedMins === "") {
+      if (e.target.value === "") {
         setSubmittedMins(0);
         setMinute(0);
       } else {
@@ -272,7 +272,7 @@ export const Timer = ({
       }
     }
     if (e.target.name === "seconds") {
-      if (submittedSeconds === "") {
+      if (e.target.value === "") {
         setSubmittedSeconds(0);
         setSecond(0);
       } else {
