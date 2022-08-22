@@ -10,11 +10,11 @@ import AddAlarmIcon from "@mui/icons-material/AddAlarm";
 
 function App() {
   // Gets timer state from localStorage
-  let [timers, setTimers] = useState([
+  let timers = [
     { id: nanoid(), name: "Mash-In", total: 18000000 },
     { id: nanoid(), name: "Vorlauf", total: 90000 },
     { id: nanoid(), name: "Boil", total: 36000000 },
-  ]);
+  ];
 
   // sets state of modal for new timer. Default is to not show
   const [open, setOpen] = useState(false);
@@ -33,7 +33,7 @@ function App() {
 
   // Save timers to localStorage
   const saveTimerToStorage = (timerItem) => {
-    setTimers(timerItem);
+    timers = timerItem;
     localStorage.setItem("timers", JSON.stringify(timerItem));
   };
 
@@ -92,15 +92,20 @@ function App() {
     setOpen(false);
   };
 
-  useEffect(() => {
+  const setTimersInStorage = () => {
     //checks if any timers are in localStorage and if so, gets them and if not, set them.
     const items = JSON.parse(localStorage.getItem("timers"));
     if (items) {
-      setTimers(items);
+      timers = items;
+      return timers;
     } else {
-      localStorage.setItem("timers", JSON.stringify(timers));
+      return localStorage.setItem("timers", JSON.stringify(timers));
     }
-  });
+  };
+
+  useEffect(() => {
+    setTimersInStorage();
+  }, [timers]);
 
   return (
     <div className="App">
