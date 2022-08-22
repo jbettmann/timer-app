@@ -13,7 +13,7 @@ function App() {
   let [timers, setTimers] = useState([
     { id: nanoid(), name: "Mash-In", total: 18000000 },
     { id: nanoid(), name: "Vorlauf", total: 90000 },
-    { id: nanoid(), name: "Boil", total: 36000000 },
+    { id: nanoid(), name: "Boil", total: 5400000 },
   ]);
 
   // sets state of modal for new timer. Default is to not show
