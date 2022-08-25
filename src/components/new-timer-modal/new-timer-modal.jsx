@@ -93,6 +93,7 @@ export const NewTimerModal = ({ open, handleClose, addNewTimer }) => {
             onChange={(event) => updateTimerName(event)}
           />
         </DialogContent>
+
         <form className="new-timer__form" onSubmit={handleSubmit}>
           <Input
             disableUnderline
