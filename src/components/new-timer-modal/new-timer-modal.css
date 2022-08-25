@@ -7,22 +7,19 @@
   }
 
 
-.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+.modal-container {
+  display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 100% !important;
-  height: 50%;
-  border-radius: 20px !important;
+  height: 50vh;
   padding: 1rem;
+  flex-direction: column;
 }
 
-.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
-  display: none !important;
-}
-
-.css-ypiqx9-MuiDialogContent-root {
+.modal-name {
   flex: none !important;
 }
+
 
 .error {
   text-align: center;

@@ -82,84 +82,85 @@ export const NewTimerModal = ({ open, handleClose, addNewTimer }) => {
 
   return (
     <Dialog className="new-timer__modal" open={open} onClose={handleClose}>
-      <DialogContent className="modal-name">
-        <TextField
-          disableUnderline
-          margin="dense"
-          id="name"
-          placeholder="Timer Name"
-          type="text"
-          onChange={(event) => updateTimerName(event)}
-          fullWidth
-        />
-      </DialogContent>
-      <form className="new-timer__form" onSubmit={handleSubmit}>
-        <Input
-          disableUnderline
-          type="number"
-          className="new-timer-inputs"
-          name="hours"
-          placeholder="hrs"
-          onChange={handleHourSet}
-          onBlur={handleHourSet}
-        />
-        <p>:</p>
-        <Input
-          disableUnderline
-          type="number"
-          className="new-timer-inputs"
-          name="mins"
-          placeholder="mins"
-          onChange={handleMinsSet}
-          onBlur={handleMinsSet}
-        />
-        <p>:</p>
-        <Input
-          disableUnderline
-          type="number"
-          name="seconds"
-          placeholder="secs"
-          className="new-timer-inputs"
-          onChange={handleSecondsSet}
-          onBlur={handleSecondsSet}
-        />
-      </form>
-      <div className="error">{error}</div>
+      <div className="modal-container">
+        <DialogContent className="modal-name">
+          <Input
+            disableUnderline
+            id="name"
+            className="new-timer-inputs"
+            placeholder="Timer Name"
+            type="text"
+            onChange={(event) => updateTimerName(event)}
+          />
+        </DialogContent>
+        <form className="new-timer__form" onSubmit={handleSubmit}>
+          <Input
+            disableUnderline
+            type="number"
+            className="new-timer-inputs"
+            name="hours"
+            placeholder="hrs"
+            onChange={handleHourSet}
+            onBlur={handleHourSet}
+          />
+          <p>:</p>
+          <Input
+            disableUnderline
+            type="number"
+            className="new-timer-inputs"
+            name="mins"
+            placeholder="mins"
+            onChange={handleMinsSet}
+            onBlur={handleMinsSet}
+          />
+          <p>:</p>
+          <Input
+            disableUnderline
+            type="number"
+            name="seconds"
+            placeholder="secs"
+            className="new-timer-inputs"
+            onChange={handleSecondsSet}
+            onBlur={handleSecondsSet}
+          />
+        </form>
+        <div className="error">{error}</div>
 
-      <DialogActions>
-        <div className="start-cancel-buttons">
-          <Button
-            size="small"
-            aria-label="Cancel timer edits"
-            id="cancel-edits__button"
+        <DialogActions>
+          <div className="start-cancel-buttons">
+            <Button
+              size="small"
+              aria-label="Cancel timer edits"
+              id="cancel-edits__button"
+              color="secondary"
+              title="Cancel"
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
+            <Button
+              size="small"
+              aria-label="Save timer changes"
+              id="save-edits__button"
+              color="secondary"
+              title="Save"
+              onClick={handleSubmit}
+            >
+              Save
+            </Button>
+          </div>
+          <IconButton
+            aria-label="Start timer"
             color="secondary"
-            title="Cancel"
-            onClick={handleClose}
-          >
-            Cancel
-          </Button>
-          <Button
-            size="small"
-            aria-label="Save timer changes"
-            id="save-edits__button"
-            color="secondary"
-            title="Save"
+            className="play-button"
+            type="submit"
+            title="Start"
             onClick={handleSubmit}
           >
-            Save
-          </Button>
-        </div>
-        <IconButton
-          aria-label="Start timer"
-          color="secondary"
-          className="play-button"
-          type="submit"
-          title="Start"
-          onClick={handleSubmit}
-        >
-          <PlayArrowIcon sx={{ fontSize: 60 }} />
-        </IconButton>
-      </DialogActions>
+            <PlayArrowIcon sx={{ fontSize: 60 }} />
+          </IconButton>
+        </DialogActions>
+      </div>
     </Dialog>
   );
 };
