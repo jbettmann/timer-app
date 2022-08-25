@@ -1,0 +1,20 @@
+:root {
+  --font-color: #bfbfbf;
+  --timer-size: 4rem;
+  --name-size: 2rem;
+  }
+
+#times-up__main > div >div {
+  width: 50%;
+}
+
+#times-up__main > div > div > div {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 1rem;
+}
+
+#times-up__buttons {
+  justify-content: space-around
+}
