@@ -389,6 +389,7 @@ export const Timer = ({
 
           <Button
             id="delete-timer"
+            className="delete"
             value={id}
             aria-label="delete timer"
             onClick={deleteTimer}
