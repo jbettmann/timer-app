@@ -291,7 +291,7 @@ export const Timer = ({
   // passes props to CountDownCircle
   const timerProps = {
     isPlaying: timerFinished, // sets animation to true or false
-    size: 180,
+    size: 180, // width size
     strokeWidth: 5,
   };
 
