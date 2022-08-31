@@ -4,9 +4,7 @@ import { nanoid } from "nanoid";
 import "./App.css";
 import { Timer } from "./components/timer/timer";
 import { NewTimerModal } from "./components/new-timer-modal/new-timer-modal";
-import { SearchTimers } from "./components/search-timers/search-timers";
-import { IconButton } from "@mui/material";
-import AddAlarmIcon from "@mui/icons-material/AddAlarm";
+import Nav from "./components/nav/nav";
 
 function App() {
   // Gets timer state from localStorage
@@ -92,31 +90,27 @@ function App() {
     setOpen(false);
   };
 
+  //checks if any timers are in localStorage and if so, gets them and if not, set them.
+  const getData = async () => {
+    const data = await JSON.parse(localStorage.getItem("timers"));
+    if (!data) {
+      localStorage.setItem("timers", JSON.stringify(timers));
+      return timers;
+    }
+    setTimers(data);
+  };
+
   useEffect(() => {
-    //checks if any timers are in localStorage and if so, gets them and if not, set them.
-    const getData = async () => {
-      const items = await JSON.parse(localStorage.getItem("timers"));
-      if (!items) {
-        localStorage.setItem("timers", JSON.stringify(timers));
-        return timers;
-      }
-      setTimers(items);
-    };
     getData();
   }, [timers.length]);
 
   return (
     <div className="App">
-      <div className="nav">
-        <h1>Timer++</h1>
-        <div className="search-add">
-          <SearchTimers search={search} setSearch={setSearch} />
-
-          <IconButton onClick={handleClickOpen} id="add-timer__button">
-            <AddAlarmIcon color="secondary" />
-          </IconButton>
-        </div>
-      </div>
+      <Nav
+        search={search}
+        setSearch={setSearch}
+        handleClickOpen={handleClickOpen}
+      />
       <div className="scroll-container">
         {filteredTimers.map((timer) => (
           <div key={timer.id} className="timers">
