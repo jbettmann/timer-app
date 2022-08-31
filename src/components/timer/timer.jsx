@@ -294,28 +294,6 @@ export const Timer = ({
     <>
       {/* start of Edit timer */}
       <div className={editView ? "timer " : "hide-timer"}>
-        <div className="start-cancel-buttons">
-          <Button
-            size="small"
-            aria-label="Cancel timer edits"
-            id="cancel-edits__button"
-            color="secondary"
-            title="Cancel"
-            onClick={handleCancel}
-          >
-            Cancel
-          </Button>
-          <Button
-            size="small"
-            aria-label="Save timer changes"
-            id="save-edits__button"
-            color="secondary"
-            title="Save"
-            onClick={handleSave}
-          >
-            Save
-          </Button>
-        </div>
         <Input
           disableUnderline
           type="text"
@@ -375,18 +353,40 @@ export const Timer = ({
         </form>
         <div className="error">{error}</div>
 
-        <div className="start-cancel-buttons">
-          <IconButton
-            aria-label="Start timer"
-            color="secondary"
-            className="play-button play_pause"
-            type="submit"
-            title="Start"
-            onClick={handleSubmit}
-          >
-            <PlayArrowIcon sx={{ fontSize: 60 }} />
-          </IconButton>
+        <div className="grouped-edit-buttons">
+          <div className="cancel-start-save">
+            <Button
+              size="small"
+              aria-label="Cancel timer edits"
+              id="cancel-edits__button"
+              color="secondary"
+              title="Cancel"
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button>
 
+            <IconButton
+              aria-label="Start timer"
+              color="secondary"
+              className="play-button play_pause"
+              type="submit"
+              title="Start"
+              onClick={handleSubmit}
+            >
+              <PlayArrowIcon sx={{ fontSize: 60 }} />
+            </IconButton>
+            <Button
+              size="small"
+              aria-label="Save timer changes"
+              id="save-edits__button"
+              color="secondary"
+              title="Save"
+              onClick={handleSave}
+            >
+              Save
+            </Button>
+          </div>
           <Button
             id="delete-timer"
             className="delete"
@@ -494,15 +494,6 @@ export const Timer = ({
             <></>
           )}
         </div>
-        <Button
-          size="large"
-          id="delete-timer"
-          aria-label="delete timer"
-          value={id}
-          onClick={deleteTimer}
-        >
-          Delete
-        </Button>
       </div>
       <TimesUp
         open={showTimesUpModal}

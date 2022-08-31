@@ -8,7 +8,7 @@
 .timer {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   position: relative;
   color: var(--font-color);
@@ -37,26 +37,35 @@ p {
   right: 15px;
 }
 
-.start-cancel-buttons {
+.grouped-edit-buttons {
   display: flex;
   flex-direction: column;
 }
 
-.
+.cancel-start-save {
+  display: flex;
+  width: 50vw;
+  justify-content: space-evenly;
+}
+
 .cancel-button {
   margin-top: 1rem;
 }
 
 #save-edits__button {
   position: absolute;
-  top: 15px;
-  right: 12px;
+  top: 34px;
+  right: 37px;
 }
 
 #cancel-edits__button {
   position: absolute;
-  top: 15px;
-  left: 15px;
+  top: 34px;
+  left: 37px;
+}
+
+#delete-timer {
+  margin-top: 1rem;
 }
 
 .play-button {
@@ -116,6 +125,17 @@ label {
 }
 
 
+
+@media all and (min-width: 601px ) and (max-width: 1300px ) {
+  #save-edits__button {
+    position: inherit;
+   
+  }
+  
+  #cancel-edits__button {
+    position: inherit;
+  }
+}
 
 @media all and (max-width: 1300px ) {
   .timer {
