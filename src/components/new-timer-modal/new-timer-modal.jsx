@@ -132,7 +132,7 @@ export const NewTimerModal = ({ open, handleClose, addNewTimer }) => {
             <Button
               size="small"
               aria-label="Cancel timer edits"
-              id="cancel-edits__button"
+              id="cancel-button"
               color="secondary"
               title="Cancel"
               onClick={handleClose}
@@ -142,7 +142,7 @@ export const NewTimerModal = ({ open, handleClose, addNewTimer }) => {
             <Button
               size="small"
               aria-label="Save timer changes"
-              id="save-edits__button"
+              id="save-button"
               color="secondary"
               title="Save"
               onClick={handleSubmit}

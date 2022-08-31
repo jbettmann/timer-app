@@ -1,6 +1,7 @@
 :root {
   --font-color: #bfbfbf;
-  --timer-size: 4rem;
+  --timer-size: 5rem;
+  --small-timer-size: 4em;
   --name-size: 2rem;
   --box-shadow: -1px -1px 4px 0px #121212;
   }
@@ -127,7 +128,17 @@ label {
   display: none;
 }
 
+@media all and (max-width: 300px) {
+  p {
+    font-size: 3rem;
+  }
+}
 
+@media all and (min-width: 301px) and (max-width: 414px) {
+  p {
+    font-size: var(--small-timer-size);
+  }
+}
 
 @media all and (min-width: 601px ) and (max-width: 1300px ) {
   #save-edits__button {

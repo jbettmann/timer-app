@@ -1,6 +1,5 @@
 :root {
   --font-color: #bfbfbf;
-  --timer-size: 4rem;
   --name-size: 2rem;
   --box-shadow: -1px -1px 4px 0px #121212;
   --background: #292929;
@@ -20,6 +19,17 @@
   flex: none !important;
 }
 
+#save-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+#cancel-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
 
 .error {
   text-align: center;
