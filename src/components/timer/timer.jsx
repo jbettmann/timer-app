@@ -6,6 +6,7 @@ import { Button, Input, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 import "./timer.css";
 
@@ -75,15 +76,21 @@ export const Timer = ({
   // Error message state
   const [error, setError] = useState("");
 
-  // Calculations for hour, minute and second for display on screen
-  let hours = Math.floor((timeLeft % (24 * 60 * 60 * 1000)) / (1000 * 60 * 60));
-  let minutes = Math.floor((timeLeft % (60 * 60 * 1000)) / (1000 * 60));
-  let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+  const timeRemaining = () => {
+    // Calculations for hour, minute and second for display on screen
+    let hours = Math.floor(
+      (timeLeft % (24 * 60 * 60 * 1000)) / (1000 * 60 * 60)
+    );
+    let minutes = Math.floor((timeLeft % (60 * 60 * 1000)) / (1000 * 60));
+    let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-  // Sets 0 in front of number less than 10 so always two digits.
-  let runningHours = hours < 10 ? `0${hours}` : hours;
-  let runningMins = minutes < 10 ? `0${minutes}` : minutes;
-  let runningSeconds = seconds < 10 ? `0${seconds}` : seconds;
+    // Sets 0 in front of number less than 10 so always two digits.
+    let runningHours = hours < 10 ? `0${hours}` : hours;
+    let runningMins = minutes < 10 ? `0${minutes}` : minutes;
+    let runningSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+    return `${runningHours}:${runningMins}:${runningSeconds}`;
+  };
 
   // real time form validation
   const FormValidation = (e) => {
@@ -134,6 +141,7 @@ export const Timer = ({
 
   const startFromDisplay = () => {
     setRunning(true);
+    setTimerPause(false);
     setTimerFinished(true);
     setError("");
     setEditView(false);
@@ -280,6 +288,12 @@ export const Timer = ({
       }
     }
   };
+  // passes props to CountDownCircle
+  const timerProps = {
+    isPlaying: timerFinished, // sets animation to true or false
+    size: 180,
+    strokeWidth: 5,
+  };
 
   useEffect(() => {
     alertFinish();
@@ -307,10 +321,13 @@ export const Timer = ({
         />
 
         {running ? (
-          <p>
-            {runningHours}:{runningMins}:{runningSeconds}
-            {/* {runningHours} Hours : {runningMins} Mins : {runningSeconds} Secs */}
-          </p>
+          <CountdownCircleTimer
+            {...timerProps}
+            duration={timeLeft}
+            colors={"#fff"}
+          >
+            {({ remainingTime }) => timeRemaining()}
+          </CountdownCircleTimer>
         ) : (
           <></>
         )}
@@ -415,9 +432,13 @@ export const Timer = ({
         </div>
         {running ? (
           <>
-            <p>
-              {runningHours}:{runningMins}:{runningSeconds}
-            </p>
+            <CountdownCircleTimer
+              {...timerProps}
+              duration={timeLeft}
+              colors={["#9c27b0", "#fff"]}
+            >
+              {({ remainingTime }) => timeRemaining()}
+            </CountdownCircleTimer>
             <Button
               size="small"
               aria-label="Add one minute to timer"
