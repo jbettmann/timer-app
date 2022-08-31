@@ -1,0 +1,42 @@
+:root {
+  --background: #292929;
+  }
+
+.nav {
+  background-color: var(--background);
+  position: fixed;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 1rem;
+  justify-content: space-between;
+  
+}
+
+.search-add {
+  display: flex;
+  align-items: center;
+  margin-right: 5rem;
+
+}
+
+@media all and (max-width:500px) {
+  .nav {
+    flex-direction: column;
+    justify-content: center;
+  } 
+  #add-timer__button{
+    position: absolute;
+    top: 12px;
+    right: 26px;
+  }
+  h1 {
+    color: #9c27b0;
+    margin-left: 0;
+    margin-bottom: .5rem;
+    font-size: 1.5rem;
+  }
+  .search-add {
+    margin-right: 0rem;
+  }
+}
