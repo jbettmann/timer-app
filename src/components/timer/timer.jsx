@@ -228,6 +228,7 @@ export const Timer = ({
     e.preventDefault();
     stopAudio(); //stops audio and sets to og
     setTimerFinished(false);
+    setTimerPause(false);
     setShowTimesUpModal(false);
     setRunning(false);
     reset();
@@ -434,7 +435,7 @@ export const Timer = ({
             {submittedSeconds < 10 ? `0${submittedSeconds}` : submittedSeconds}
           </p>
         )}
-        <div className="start-cancel-buttons">
+        <div className="grouped-edit-buttons">
           {!running && (
             <IconButton
               aria-label="Start timer"

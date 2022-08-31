@@ -30,11 +30,14 @@ p {
   margin: 1rem;
 }
 
+.edit-timer {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
 #edit-icon {
-  cursor: pointer;
-  position: absolute;
-  top: 15px;
-  right: 15px;
+  position: static;
 }
 
 .grouped-edit-buttons {
@@ -143,12 +146,5 @@ label {
     box-shadow: none;
     margin-top: 5rem;
   }
-  #edit-icon {
-    position: static;
-  }
-  .edit-timer {
-    display: flex;
-    align-items: center;
-    flex-direction: row-reverse;
-  }
+
 }
