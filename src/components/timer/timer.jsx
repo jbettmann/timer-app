@@ -65,6 +65,7 @@ export const Timer = ({
   let prevMins = useRef(submittedMins);
   let prevSecs = useRef(submittedSeconds);
   let prevName = useRef(name);
+
   // hours, minutes and seconds passed to the start() in submit handle in millsec.
   let [second, setSecond] = useState(submittedSeconds * 1000);
   let [minute, setMinute] = useState(submittedMins * 60 * 1000);
@@ -75,6 +76,24 @@ export const Timer = ({
 
   // Error message state
   const [error, setError] = useState("");
+
+  // adds together submitted time for circle animation
+  let [duration, setDuration] = useState(
+    Math.floor(submittedHours * 60 * 60 + submittedMins * 60 + submittedSeconds)
+  );
+
+  // handles circle animation reset when timer duration changes
+  const [key, setKey] = useState(0);
+
+  //set duration back to default
+  const resetDuration = () => {
+    setDuration(
+      Math.floor(
+        submittedHours * 60 * 60 + submittedMins * 60 + submittedSeconds
+      )
+    );
+    setKey(key + 1);
+  };
 
   const timeRemaining = () => {
     // Calculations for hour, minute and second for display on screen
@@ -89,7 +108,11 @@ export const Timer = ({
     let runningMins = minutes < 10 ? `0${minutes}` : minutes;
     let runningSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
-    return `${runningHours}:${runningMins}:${runningSeconds}`;
+    if (running) {
+      return `${runningHours}:${runningMins}:${runningSeconds}`;
+    } else {
+      return `${submittedHours}:${submittedMins}:${submittedSeconds}`;
+    }
   };
 
   // real time form validation
@@ -168,22 +191,17 @@ export const Timer = ({
       return alert("Please enter time to start timer");
     }
     if (hour === 0 && minute === 0 && second === 0) {
-      changeTimer(id, newTotalTimer, timerName);
-      setRunning(true);
-      setTimerPause(false);
-      setTimerFinished(true);
-      setError("");
-      setEditView(false);
       start(total);
     } else {
-      changeTimer(id, newTotalTimer, timerName);
-      setRunning(true);
-      setTimerPause(false);
-      setTimerFinished(true);
-      setError("");
-      setEditView(false);
       start(newTotalTimer);
     }
+    changeTimer(id, newTotalTimer, timerName);
+    setRunning(true);
+    setTimerPause(false);
+    setTimerFinished(true);
+    setError("");
+    setEditView(false);
+    resetDuration();
   };
   // Saves edits to timer
   const handleSave = (e) => {
@@ -202,6 +220,8 @@ export const Timer = ({
       let newTotalTimer = hour + minute + second;
       changeTimer(id, newTotalTimer, timerName);
       setEditView(false);
+      setRunning(false);
+      resetDuration();
     }
   };
 
@@ -252,6 +272,7 @@ export const Timer = ({
   //adds one minute to current timer
   const addAMinute = (e) => {
     let newTotal = timeLeft + 60000;
+    setDuration(duration + 60);
     start(newTotal);
     if (timerPause) {
       pause();
@@ -288,11 +309,15 @@ export const Timer = ({
       }
     }
   };
+
   // passes props to CountDownCircle
   const timerProps = {
+    key: key,
     isPlaying: timerFinished, // sets animation to true or false
     size: 180, // width size
     strokeWidth: 5,
+    duration: duration,
+    colors: ["#9c27b0", "#fff"],
   };
 
   useEffect(() => {
@@ -321,11 +346,7 @@ export const Timer = ({
         />
 
         {running ? (
-          <CountdownCircleTimer
-            {...timerProps}
-            duration={timeLeft}
-            colors={"#fff"}
-          >
+          <CountdownCircleTimer {...timerProps}>
             {({ remainingTime }) => timeRemaining()}
           </CountdownCircleTimer>
         ) : (
@@ -432,12 +453,10 @@ export const Timer = ({
         </div>
         {running ? (
           <>
-            <CountdownCircleTimer
-              {...timerProps}
-              duration={timeLeft}
-              colors={["#9c27b0", "#fff"]}
-            >
-              {({ remainingTime }) => timeRemaining()}
+            <CountdownCircleTimer {...timerProps}>
+              {({ remainingTime }) => (
+                <p className="time-display">{timeRemaining()}</p>
+              )}
             </CountdownCircleTimer>
             <Button
               size="small"
