@@ -9,7 +9,7 @@ import Nav from "./components/nav/nav";
 function App() {
   // Gets timer state from localStorage
   let [timers, setTimers] = useState([
-    { id: nanoid(), name: "Mash-In", total: 18000000 },
+    { id: nanoid(), name: "Mash-In", total: 900000 },
     { id: nanoid(), name: "Vorlauf", total: 90000 },
     { id: nanoid(), name: "Boil", total: 5400000 },
   ]);
