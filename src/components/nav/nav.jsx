@@ -11,9 +11,9 @@ export default function Nav({ search, setSearch, handleClickOpen }) {
     <div className="nav">
       <h1>Timer++</h1>
       <div
-        className="search-add"
         onClick={() => setSearchBar(true)}
         onBlur={() => setSearchBar(false)}
+        className="search-add"
       >
         {searchBar ? (
           <SearchTimers

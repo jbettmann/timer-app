@@ -22,7 +22,6 @@
 
 @media all and (max-width:500px) {
   .nav {
-    
     justify-content: space-around;
   } 
   #add-timer__button{

@@ -5,7 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 export const SearchTimers = ({ search, setSearch, searchBar }) => {
   return (
     <form className="search-form" onSubmit={(e) => e.preventDefault()}>
-      <SearchIcon className="search-icon" />
+      {/* <SearchIcon className="search-icon" /> */}
       <label htmlFor="search" className="search-label"></label>
       <input
         className={searchBar ? "search focus" : "search"}
