@@ -5,6 +5,7 @@ import "./App.css";
 import { Timer } from "./components/timer/timer";
 import { NewTimerModal } from "./components/new-timer-modal/new-timer-modal";
 import Nav from "./components/nav/nav";
+import { BottomNavbar } from "./components/bottom-navbar/bottom-navbar";
 
 function App() {
   // Gets timer state from localStorage
@@ -125,6 +126,11 @@ function App() {
           </div>
         ))}
       </div>
+      <BottomNavbar
+        search={search}
+        setSearch={setSearch}
+        handleClickOpen={handleClickOpen}
+      />
       <NewTimerModal
         open={open}
         handleClose={handleClose}

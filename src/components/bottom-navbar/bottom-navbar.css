@@ -1,0 +1,12 @@
+:root {
+  --background: #292929;
+  }
+
+
+.bottom-navbar {
+  background-color: var(--background) !important;
+}
+
+.nav-buttons {
+  justify-content: space-evenly !important;
+}
