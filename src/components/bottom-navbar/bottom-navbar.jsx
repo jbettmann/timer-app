@@ -44,12 +44,6 @@ export const BottomNavbar = ({ search, setSearch, handleClickOpen }) => {
         <IconButton color="inherit">
           <AlarmIcon />
         </IconButton>
-        <IconButton color="inherit">
-          <PersonIcon />
-        </IconButton>
-        <IconButton color="inherit">
-          <MoreIcon />
-        </IconButton>
       </Toolbar>
     </AppBar>
   );
