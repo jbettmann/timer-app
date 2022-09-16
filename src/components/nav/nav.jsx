@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SearchTimers } from "../search-timers/search-timers";
 import SearchIcon from "@mui/icons-material/Search";
+import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
 import "./nav.css";
 
@@ -9,7 +10,14 @@ export default function Nav({ search, setSearch, handleClickOpen }) {
 
   return (
     <div className="nav">
-      <h1>Timer++</h1>
+      <IconButton
+        color="inherit"
+        className="menu-icon"
+        aria-label="open drawer"
+      >
+        <MenuIcon />
+      </IconButton>
+
       <div
         onClick={() => setSearchBar(true)}
         onBlur={() => setSearchBar(false)}
@@ -22,7 +30,9 @@ export default function Nav({ search, setSearch, handleClickOpen }) {
             searchBar={searchBar}
           />
         ) : (
-          <SearchIcon />
+          <IconButton>
+            <SearchIcon sx={{ color: "#fff" }} />
+          </IconButton>
         )}
       </div>
     </div>

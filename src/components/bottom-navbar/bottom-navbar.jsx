@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import Fab from "@mui/material/Fab";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import AddIcon from "@mui/icons-material/Add";
 import MoreIcon from "@mui/icons-material/MoreVert";

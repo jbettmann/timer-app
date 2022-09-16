@@ -3,18 +3,25 @@
   }
 
 .nav {
-  background-color: var(--background);
+  background-color: var(--background) !important;
+  color: #fff;
   position: fixed;
+  top: 0;
+  bottom: auto;
   display: flex;
-  width: 100%;
+  width: 95%;
   align-items: center;
   padding: 1rem;
-  justify-content: space-between;
+  justify-content: space-between !important;
   z-index: 1;
 }
 
+.menu-icon {
+  margin-left: 5rem;
+}
 .search-add {
   display: flex;
+  color: #fff;
   align-items: center;
   margin-right: 5rem;
   cursor: pointer;
@@ -22,7 +29,10 @@
 
 @media all and (max-width:500px) {
   .nav {
-    justify-content: space-around;
+    justify-content: space-between;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   } 
   #add-timer__button{
     position: absolute;
