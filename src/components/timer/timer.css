@@ -14,7 +14,8 @@
   position: relative;
   color: var(--font-color);
   width: 50vw;
-  margin-bottom: 3.5rem;
+  margin-top: 4rem;
+  margin-bottom: 6rem;
   padding: 1rem;
   border-radius: 20px;
   box-shadow:  0px 2px 20px 1px rgb(106, 106, 106);
