@@ -8,6 +8,7 @@ export const SearchTimers = ({ search, setSearch, searchBar }) => {
       {/* <SearchIcon className="search-icon" /> */}
       <label htmlFor="search" className="search-label"></label>
       <input
+        autoFocus
         className={searchBar ? "search focus" : "search"}
         type="search"
         role="searchbox"
