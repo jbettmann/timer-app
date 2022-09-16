@@ -452,7 +452,7 @@ export const Timer = ({
           <h3>{name}</h3>
         </div>
         {running ? (
-          <>
+          <div>
             <CountdownCircleTimer {...timerProps}>
               {({ remainingTime }) => (
                 <p className="time-display">{timeRemaining()}</p>
@@ -467,7 +467,7 @@ export const Timer = ({
             >
               +1 Minute
             </Button>
-          </>
+          </div>
         ) : (
           <p>
             {submittedHours < 10 ? `0${submittedHours}` : submittedHours}:

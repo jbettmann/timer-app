@@ -5,6 +5,7 @@
 
 .bottom-navbar {
   background-color: var(--background) !important;
+  padding-bottom: .5rem;
 }
 
 .nav-buttons {
