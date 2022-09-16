@@ -22,8 +22,8 @@
 
 @media all and (max-width:500px) {
   .nav {
-    flex-direction: column;
-    justify-content: center;
+    
+    justify-content: space-around;
   } 
   #add-timer__button{
     position: absolute;
