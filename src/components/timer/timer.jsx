@@ -116,7 +116,7 @@ export const Timer = ({
   };
 
   // real time form validation
-  const FormValidation = (e) => {
+  const formValidation = (e) => {
     // Real time validation hours entered is less than 24 and displays error message
     if (e.target.name === "hours") {
       setSubmittedHours(e.target.value);
@@ -362,7 +362,7 @@ export const Timer = ({
             value={submittedHours}
             onFocus={() => setSubmittedHours("")}
             onBlur={handleBlur}
-            onChange={FormValidation}
+            onChange={formValidation}
           />
           <label htmlFor="hours">hrs</label>
 
@@ -374,7 +374,7 @@ export const Timer = ({
             value={submittedMins}
             onFocus={() => setSubmittedMins("")}
             onBlur={handleBlur}
-            onChange={FormValidation}
+            onChange={formValidation}
           />
           <label htmlFor="minutes">mins</label>
 
@@ -386,7 +386,7 @@ export const Timer = ({
             value={submittedSeconds}
             onFocus={() => setSubmittedSeconds("")}
             onBlur={handleBlur}
-            onChange={FormValidation}
+            onChange={formValidation}
           />
           <label htmlFor="seconds">secs</label>
         </form>
