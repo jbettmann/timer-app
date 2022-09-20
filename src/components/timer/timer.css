@@ -160,7 +160,8 @@ label {
   .timer {
     width: 100%;
     box-shadow: none;
-   
+    margin-top: 3rem;
+    padding-top: 6rem;
   }
 
 }
