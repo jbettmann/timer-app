@@ -1,5 +1,7 @@
 :root {
   --font-color: #bfbfbf;
+  --timestamp: #6d6d6d;
+  --paused-timestamp: #404040;
   --timer-size: 5rem;
   --small-timer-size: 4em;
   --name-size: 2rem;
@@ -31,9 +33,35 @@ p {
   font-size: var(--timer-size);
   margin: 1rem;
 }
-
+.time-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .time-display {
   font-size: 2rem;
+  margin: 0;
+  margin-top: 1.5rem;
+}
+
+.time-display div {
+  display: inline-flex;
+}
+
+.timestamp {
+  display: flex;
+  align-items: center;
+  color: var(--timestamp);
+  font-size: 1rem;
+  margin: .5rem;
+}
+.alarm-icon {
+  margin-right: .4rem;
+}
+
+.paused {
+  color: var(--paused-timestamp);
 }
 
 .edit-timer {

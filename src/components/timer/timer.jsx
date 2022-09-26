@@ -7,8 +7,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 
 import "./timer.css";
+import { ViewColumn } from "@mui/icons-material";
 
 export const Timer = ({
   deleteTimer,
@@ -25,6 +27,9 @@ export const Timer = ({
     initialTime,
     interval
   );
+
+  // set timestamp for timer finish
+  let [timestamp, setTimestamp] = useState("");
   // name of timer
   const [timerName, setTimerName] = useState(name);
 
@@ -93,6 +98,39 @@ export const Timer = ({
       )
     );
     setKey(key + 1);
+  };
+
+  const handleResume = (total) => {
+    displayEndTime(total);
+    setTimerPause(false);
+    setTimerFinished(true);
+    resume();
+  };
+
+  const displayEndTime = (time) => {
+    const now = Date.now();
+    let then;
+    if (timerPause) {
+      then = now + timeLeft;
+      endTime(then);
+    } else {
+      then = now + time;
+      endTime(then);
+    }
+  };
+
+  const endTime = (timestamp) => {
+    const end = new Date(timestamp);
+    const hours = end.getHours();
+    const minutes = end.getMinutes();
+
+    console.log({ end, hours, minutes });
+
+    return setTimestamp(
+      `${hours > 12 ? hours - 12 : hours}:${minutes < 10 ? "0" : ""}${minutes}${
+        hours >= 13 ? "PM" : "AM"
+      }`
+    );
   };
 
   const timeRemaining = () => {
@@ -169,6 +207,7 @@ export const Timer = ({
     setError("");
     setEditView(false);
     start(total);
+    displayEndTime(total);
   };
 
   // sets Running state to true and adds hour, minutes and seconds to total then submitted to start() in millsec.
@@ -191,8 +230,10 @@ export const Timer = ({
       return alert("Please enter time to start timer");
     }
     if (hour === 0 && minute === 0 && second === 0) {
+      displayEndTime(total);
       start(total);
     } else {
+      displayEndTime(newTotalTimer);
       start(newTotalTimer);
     }
     changeTimer(id, newTotalTimer, timerName);
@@ -313,6 +354,7 @@ export const Timer = ({
   // passes props to CountDownCircle
   const timerProps = {
     key: key,
+    flexDirection: "column",
     isPlaying: timerFinished, // sets animation to true or false
     size: 180, // width size
     strokeWidth: 5,
@@ -455,7 +497,17 @@ export const Timer = ({
           <div>
             <CountdownCircleTimer {...timerProps}>
               {({ remainingTime }) => (
-                <p className="time-display">{timeRemaining()}</p>
+                <div className="time-container">
+                  <p className="time-display">{timeRemaining()}</p>
+
+                  <p className={!timerPause ? "timestamp" : "timestamp paused"}>
+                    <NotificationsActiveIcon
+                      className="alarm-icon"
+                      sx={{ fontSize: 15 }}
+                    />
+                    {timestamp}
+                  </p>
+                </div>
               )}
             </CountdownCircleTimer>
             <Button
@@ -510,9 +562,7 @@ export const Timer = ({
                 color="secondary"
                 title="resume"
                 onClick={() => {
-                  resume();
-                  setTimerPause(false);
-                  setTimerFinished(true);
+                  handleResume(total);
                 }}
               >
                 <PlayArrowIcon sx={{ fontSize: 60 }} />

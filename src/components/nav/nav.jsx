@@ -10,13 +10,13 @@ export default function Nav({ search, setSearch, handleClickOpen }) {
 
   return (
     <div className="nav">
-      <IconButton
+      {/* <IconButton
         color="inherit"
         className="menu-icon"
         aria-label="open drawer"
       >
         <MenuIcon />
-      </IconButton>
+      </IconButton> */}
 
       <div
         onClick={() => setSearchBar(true)}
