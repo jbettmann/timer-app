@@ -101,7 +101,7 @@ export const Timer = ({
   };
 
   const handleResume = (total) => {
-    displayEndTime(total);
+    displayEndTime(total); // resets timestamp
     setTimerPause(false);
     setTimerFinished(true);
     resume();
@@ -111,6 +111,7 @@ export const Timer = ({
     const now = Date.now();
     let then;
     if (timerPause) {
+      // resets timer finished time
       then = now + timeLeft;
       endTime(then);
     } else {
@@ -118,7 +119,7 @@ export const Timer = ({
       endTime(then);
     }
   };
-
+  // calculates when timer will be finished
   const endTime = (timestamp) => {
     const end = new Date(timestamp);
     const hours = end.getHours();
@@ -235,6 +236,7 @@ export const Timer = ({
     } else {
       displayEndTime(newTotalTimer);
       start(newTotalTimer);
+      console.log(newTotalTimer);
     }
     changeTimer(id, newTotalTimer, timerName);
     setRunning(true);
